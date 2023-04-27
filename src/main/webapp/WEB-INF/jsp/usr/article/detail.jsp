@@ -38,7 +38,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 %>
 <section class="mt-10 text-xl">
 		<div class="mx-auto overflow-x-auto">
-				<table class=" table w-full table-box-type-1" style="width: 500px;">
+				<table class=" table w-full table-box-type-1" style="width: 500px; height: 500px;">
 						<thead>
 								<tr>
 										<th style="font-size: 15px">번호</th>
@@ -69,6 +69,18 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 								<tr>
 										<th style="font-size: 15px">조회수</th>
 										<th><span class="article-detail__hit-count">${article.hitCount }</span></th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">좋아요</th>
+										<th>${article.extra__goodReactionPoint }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">싫어요</th>
+										<th>${article.extra__badReactionPoint }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">추천도</th>
+										<th>${article.extra__sumReactionPoint }</th>
 								</tr>
 
 						</thead>

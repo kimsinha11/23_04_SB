@@ -56,15 +56,19 @@
 	</select>
 
 	<select id="getArticle" resultType="Article">
-		SELECT article.id,
-		article.regDate, article.updateDate, article.title, article.body,
-		article.memberId, article.hitCount, member.name AS 'name'
+		SELECT article.*,
+		IFNULL(SUM(reactionPoint.point),0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point &gt; 0,reactionPoint.point,0)),0) AS extra__goodReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point &lt; 0,reactionPoint.point,0)),0) AS extra__badReactionPoint, member.name AS 'name'
 		FROM article
 		INNER JOIN `member`
 		ON article.memberId = member.id
+		LEFT JOIN reactionPoint
+		ON article.id = reactionPoint.relId AND reactionPoint.relTypeCode = 'article'
 		WHERE article.id
 		=
 		#{id}
+		
 	</select>
 
 	<delete id="deleteArticle">
