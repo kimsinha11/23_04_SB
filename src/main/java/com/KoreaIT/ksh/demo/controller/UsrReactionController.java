@@ -33,14 +33,46 @@ public class UsrReactionController {
 	private Rq rq;
 
 
-	@RequestMapping("/usr/reaction/doIncreaseGoodCountRd")
-	public ResultData doIncreaseGoodCountRd(int id) {
-		ResultData doIncreaseGoodCountRd = reactionService.doIncreaseGoodCount(id);
-		
-		ResultData rd = ResultData.newData(doIncreaseGoodCountRd, "point", reactionService.getReactionGoodCount(id));
-		rd.setData2("id", id);
+	@RequestMapping("/usr/reaction/doGoodPoint")
+	@ResponseBody
+	public ResultData<?> doGoodPoint(int id, int memberId) {
+
+		ResultData<?> GoodPointRd = reactionService.GoodPointRd(id, memberId);
+
+		if (GoodPointRd.isFail()) {
+			return GoodPointRd;
+		}
+
+		int goodCount = reactionService.getArticleGoodCount(id);
+
+		ResultData<?> rd = ResultData.from(GoodPointRd.getResultCode(), GoodPointRd.getMsg(), "likeCount", goodCount);
+
 		return rd;
 	}
 
+	@RequestMapping("/usr/reaction/doCancelGoodPoint")
+	@ResponseBody
+	public ResultData<?> doCancelGoodPoint(int id, String relTypeCode, int memberId) {
 
+	    ResultData<?> cancelGoodPointRd = reactionService.doCancelGoodPoint(id, relTypeCode, memberId);
+
+	    return cancelGoodPointRd;
+	}
+	
+	@RequestMapping("/usr/reaction/doBadPoint")
+	@ResponseBody
+	public ResultData<?> doBadPoint(int id, int memberId) {
+
+		ResultData<?> BadPointRd = reactionService.BadPointRd(id, memberId);
+
+		if (BadPointRd.isFail()) {
+			return BadPointRd;
+		}
+
+		int badCount = reactionService.getArticleBadCount(id);
+
+		ResultData<?> rd = ResultData.from(BadPointRd.getResultCode(), BadPointRd.getMsg(), "likeCount", badCount);
+
+		return rd;
+	}
 }
