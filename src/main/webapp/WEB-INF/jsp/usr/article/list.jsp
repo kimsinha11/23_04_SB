@@ -31,7 +31,9 @@
 					<th style="font-size: 19px">제목</th>
 					<th style="font-size: 19px">작성자</th>
 					<th style="font-size: 19px">조회수</th>
-					<th style="font-size: 19px">추천</th>
+					<th style="font-size: 19px">좋아요</th>
+					<th style="font-size: 19px">싫어요</th>
+					<th style="font-size: 19px">추천도</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,6 +50,8 @@
 						<th>${article.name }</th>
 						<th>${article.hitCount }</th>
 						<th>${article.extra__goodReactionPoint }</th>
+						<th>${article.extra__badReactionPoint }</th>
+						<th>${article.extra__sumReactionPoint }</th>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -65,16 +69,16 @@
 	<c:set var="baseUri2"
 		value="itemsPerPage=${itemsPerPage}&searchKeyword=${param.searchKeyword }&searchId=${param.searchId}" />
 	<c:if test="${pageNum > 1}">
-		<a href="?boardId=${board.id}&pageNum=1&${baseUri2 }">◀◀</a>
+		<a href="?boardId=${article.boardId}&pageNum=1&${baseUri2 }">◀◀</a>
 	</c:if>
 	<c:if test="${pageNum > 10}">
 		<a class="btn-text-link btn btn-outline btn-xs"
-			href="?boardId=${board.id}&pageNum=${pageNum - 10}&${baseUri2 }">이전</a>
+			href="?boardId=${article.boardId}&pageNum=${pageNum - 10}&${baseUri2 }">이전</a>
 	</c:if>
 
 	<c:forEach var="i" begin="1" end="${totalPages}" varStatus="status">
 		<c:set var="baseUri"
-			value="?boardId=${board.id}&pageNum=${i}&itemsPerPage=${itemsPerPage}&searchKeyword=${param.searchKeyword }&searchId=${param.searchId}" />
+			value="?boardId=${article.boardId}&pageNum=${i}&itemsPerPage=${itemsPerPage}&searchKeyword=${param.searchKeyword }&searchId=${param.searchId}" />
 
 		<c:if
 			test="${status.index >= ((pageNum-1) / 10) * 10 && status.index < ((pageNum-1) / 10 + 1) * 10}">
@@ -91,11 +95,11 @@
 	</c:forEach>
 	<c:if test="${pageNum < totalPages && totalPages - pageNum >= 10}">
 		<a class="btn-text-link btn btn-outline btn-xs"
-			href="?boardId=${board.id}&pageNum=${pageNum + 10}&${baseUri2 }">다음</a>
+			href="?boardId=${article.boardId}&pageNum=${pageNum + 10}&${baseUri2 }">다음</a>
 	</c:if>
 
-	<c:if test="${pageNum < totalPages}">
-		<a href="?boardId=${board.id}&pageNum=${totalPages}&${baseUri2 }">▶▶</a>
+	<c:if test="${pageNum < totalPages && totalPages - pageNum >= 10}">
+		<a href="?boardId=${article.boardId}&pageNum=${totalPages}&${baseUri2 }">▶▶</a>
 	</c:if>
 </div>
 <br />
@@ -107,7 +111,7 @@
 			<option value="1">제목</option>
 			<option value="2">내용</option>
 			<option value="3">제목+내용</option>
-		</select> <input type="hidden" name="boardId" value="${board.id}" /> <input
+		</select> <input type="hidden" name="boardId" value="${article.boardId}" /> <input
 			value="${param.searchKeyword }"
 			class="input input-bordered w-full max-w-xs" type="text"
 			name="searchKeyword" placeholder="검색어를 입력해주세요" />

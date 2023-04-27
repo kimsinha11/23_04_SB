@@ -15,22 +15,24 @@
 		memberId = #{memberId},
 		boardId =
 		#{boardId},
-		hitCount = 
+		hitCount =
 		0
 	</insert>
 
 	<select id="getArticles" resultType="Article">
-		SELECT article.id, article.regDate, article.updateDate, article.title,
-		article.body, article.memberId, article.boardId, article.hitCount,board.id, member.name
-		AS 'name'
+		SELECT article.*,
+		IFNULL(SUM(reactionPoint.point),0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point &gt; 0,reactionPoint.point,0)),0) AS extra__goodReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point &lt; 0,reactionPoint.point,0)),0) AS extra__badReactionPoint,
+		member.name AS 'name'
 		FROM article
-		INNER JOIN `member`
+		INNER JOIN
+		`member`
 		ON article.memberId =
 		member.id
-		INNER JOIN board
-		ON article.boardId = board.id
-		WHERE board.id =
-		#{boardId}
+		LEFT JOIN reactionPoint
+		ON article.id = reactionPoint.relId AND reactionPoint.relTypeCode = 'article'
+		WHERE article.boardId = #{boardId}
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
 				<when test="searchId != null and searchId.intValue() == 1">
@@ -40,15 +42,17 @@
 					AND body LIKE CONCAT('%', #{searchKeyword}, '%')
 				</when>
 				<otherwise>
-					AND (title LIKE CONCAT('%', #{searchKeyword}, '%') OR body LIKE
+					AND (title LIKE CONCAT('%', #{searchKeyword}, '%') OR
+					body LIKE
 					CONCAT('%', #{searchKeyword}, '%'))
 				</otherwise>
 			</choose>
 		</if>
+		GROUP BY article.id
 		ORDER BY article.id DESC
 		<if test="i >= 0">
-				LIMIT #{i}, #{itemsPerPage}
-			</if>
+			LIMIT #{i}, #{itemsPerPage}
+		</if>
 	</select>
 
 	<select id="getArticle" resultType="Article">
@@ -59,7 +63,8 @@
 		INNER JOIN `member`
 		ON article.memberId = member.id
 		WHERE article.id
-		= #{id}
+		=
+		#{id}
 	</select>
 
 	<delete id="deleteArticle">
@@ -81,10 +86,10 @@
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
-	
-	<update id ="increaseHitCount">
-	UPDATE article
-	SET hitCount = hitCount + 1
-	WHERE id = #{id}
+
+	<update id="increaseHitCount">
+		UPDATE article
+		SET hitCount = hitCount + 1
+		WHERE id = #{id}
 	</update>
 </mapper>
