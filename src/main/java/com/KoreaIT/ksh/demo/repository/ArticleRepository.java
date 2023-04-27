@@ -63,5 +63,7 @@ public interface ArticleRepository {
 	
 	public int increaseHitCount(int id);
 
+	public Object findById(int id);
+
 	
 }

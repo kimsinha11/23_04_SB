@@ -72,11 +72,11 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 								</tr>
 								<tr>
 										<th style="font-size: 15px">좋아요</th>
-										<th>${article.extra__goodReactionPoint }</th>
+										<th><button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="location.href='/usr/reaction/doIncreaseGoodCountRd?id=${article.id}'">😊 좋아요 ${article.extra__goodReactionPoint }</button></th>
 								</tr>
 								<tr>
 										<th style="font-size: 15px">싫어요</th>
-										<th>${article.extra__badReactionPoint }</th>
+										<th><button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="doIncreaseGoodCountRd(${article.id})">🤔 싫어요 ${article.extra__badReactionPoint }</button></th>
 								</tr>
 								<tr>
 										<th style="font-size: 15px">추천도</th>
@@ -113,5 +113,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 
 
 </section>
+
+
 
 <%@ include file="../common/foot.jspf"%>
