@@ -44,14 +44,6 @@ title = '제목 3',
 `body` = '내용 3',
 memberId= 1;
 
-INSERT INTO article 
-SET regDate = NOW(),
-updateDate = NOW(),
-title = 'QnA',
-`body` = '내용 3',
-memberId= 3,
-boardId = 3;
-
 
 # 회원 테이블 생성
 CREATE TABLE `member`(
@@ -147,6 +139,13 @@ CREATE TABLE reactionPoint(
     `point` INT(10) NOT NULL
 );
 
+#중복 좋아요 막기
+#ALTER TABLE reactionPoint 
+#ADD CONSTRAINT unique_reaction UNIQUE (memberId, relId);
+
+#게시물 테이블에 추천 관련 컬럼 추가
+ALTER TABLE ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL;
+ALTER TABLE ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL;
 #reactionPoint 테스트 데이터
 #1번 회원이 1번 글에 싫어요
 INSERT INTO reactionPoint
@@ -205,10 +204,9 @@ SELECT FLOOR(RAND()*2) +2
 SELECT RAND()
 ;
 
+ALTER TABLE article ADD boardId INT(10) UNSIGNED NOT NULL AFTER `memberId`;
 ALTER TABLE article ADD hitCount INT(10) UNSIGNED NOT NULL AFTER boardId;
 SELECT*FROM `member` WHERE `name` LIKE "%회원%";
-
-ALTER TABLE article ADD boardId INT(10) UNSIGNED NOT NULL AFTER `memberId`;
 
 UPDATE article SET boardId = 1 WHERE id IN (1,2);
 
@@ -270,9 +268,20 @@ INNER JOIN `member` AS M
 ON A.memberId = M.id
 LEFT JOIN reactionPoint AS RP 
 ON A.id = RP.relId AND RP.relTypeCode = 'article'
+where A.id=1
 GROUP BY A.id
 ORDER BY A.id DESC;
 
+update reactionPoint
+inner join article
+set `point` = 1
+where article.id = 1
 
+
+SELECT article.id,`point`
+FROM reactionPoint
+INNER JOIN article
+on reactionPoint.relId = article.id
+Group by article.id
 
 SELECT LAST_INSERT_ID();
