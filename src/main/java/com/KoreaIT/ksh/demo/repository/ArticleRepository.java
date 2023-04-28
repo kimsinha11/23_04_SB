@@ -65,16 +65,6 @@ public interface ArticleRepository {
 
 	public Object findById(int id);
 
-	@Select("""
-			<script>
-				SELECT IFNULL(SUM(rp.point),0)
-				FROM reactionPoint AS rp
-				WHERE rp.relTypeCode = 'article'
-				AND rp.relId = #{id}
-				AND rp.memberId = #{actorId}
-			</script>
-			""")
-	public int getSumReactionPointByMemberId(int actorId, int id);
 
 	
 }

@@ -79,10 +79,7 @@ public class ArticleService {
 		return articleRepository.getArticleHitCount(id);
 	}
 
-	public boolean actorCanMakeReaction(int actorId, int id) {
-		
-		return articleRepository.getSumReactionPointByMemberId(actorId, id) == 0;
-	}
+
 	
 
 
