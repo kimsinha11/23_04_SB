@@ -58,4 +58,14 @@ public interface ReactionPointRepository {
 			""")
 	public void deleteGoodReactionPoint(int actorId, String relTypeCode, int relId);
 
+	@Delete("""
+			<script>
+			DELETE FROM reactionPoint
+		WHERE memberId = #{actorId} 
+		AND relTypeCode = #{relTypeCode}
+		AND relId = #{relId};
+			</script>
+			""")
+	public void deleteBadReactionPoint(int actorId, String relTypeCode, int relId);
+
 }

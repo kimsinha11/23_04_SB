@@ -77,12 +77,15 @@ public interface ArticleRepository {
 	@Update("""
 			<script>
 				UPDATE article
-				SET goodReactionPoint = goodReactionPoint + 1
+				SET badReactionPoint = badReactionPoint + 1
 				WHERE id = #{relId} 
 			</script>
 			""")
 	public int increaseBadReactionPoint(int relId);
 
+	
 	public int decreaseGoodReactionPoint(int relId);
+
+	public int decreaseBadReactionPoint(int relId);
 
 }

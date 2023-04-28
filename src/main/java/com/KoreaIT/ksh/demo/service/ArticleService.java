@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.service;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class ArticleService {
 
 		int id = articleRepository.getLastInsertId();
 
-		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id), "id",id);
+		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id), "id", id);
 
 	}
 
@@ -65,15 +64,14 @@ public class ArticleService {
 	}
 
 	public ResultData increaseHitCount(int id) {
-		int affectedRow =  articleRepository.increaseHitCount(id);
-		
-		if(affectedRow == 0) {
+		int affectedRow = articleRepository.increaseHitCount(id);
+
+		if (affectedRow == 0) {
 			return ResultData.from("F-1", "해당 게시물은 없음", "affectedRow", affectedRow);
 		}
-		
+
 		return ResultData.from("S-1", "조회수 증가", "affectedRowRd", affectedRow);
 	}
-
 
 	public int getArticleHitCount(int id) {
 		return articleRepository.getArticleHitCount(id);
@@ -81,8 +79,8 @@ public class ArticleService {
 
 	public ResultData increaseGoodReactionPoint(int relId) {
 		int affectedRow = articleRepository.increaseGoodReactionPoint(relId);
-		
-		if(affectedRow == 0) {
+
+		if (affectedRow == 0) {
 			return ResultData.from("F-1", "게시글 정보가 없습니다.", "affectedRow", affectedRow);
 		}
 		return ResultData.from("S-1", "좋아요 증가", "affectedRow", affectedRow);
@@ -90,20 +88,30 @@ public class ArticleService {
 
 	public ResultData increaseBadReactionPoint(int relId) {
 		int affectedRow = articleRepository.increaseBadReactionPoint(relId);
-		
-		if(affectedRow == 0) {
+
+		if (affectedRow == 0) {
 			return ResultData.from("F-1", "게시글 정보가 없습니다.", "affectedRow", affectedRow);
 		}
 		return ResultData.from("S-1", "싫어요 증가", "affectedRow", affectedRow);
 	}
 
-	public ResultData decreaseBadReactionPoint(int relId) {
+	public ResultData decreaseGoodReactionPoint(int relId) {
 		int affectedRow = articleRepository.decreaseGoodReactionPoint(relId);
-		
-		if(affectedRow==0) {
+
+		if (affectedRow == 0) {
 			return ResultData.from("F-1", "해당 게시글은 존재하지 않습니다.", "affectedRow", affectedRow);
 		}
 		return ResultData.from("S-1", "좋아요 감소", "affectedRow", affectedRow);
+	}
+
+	public ResultData decreaseBadReactionPoint(int relId) {
+		int affectedRow = articleRepository.decreaseBadReactionPoint(relId);
+
+		if (affectedRow == 0) {
+			return ResultData.from("F-1", "해당 게시글은 존재하지 않습니다.", "affectedRow", affectedRow);
+		}
+		return ResultData.from("S-1", "싫어요 감소", "affectedRow", affectedRow);
+
 	}
 
 }
