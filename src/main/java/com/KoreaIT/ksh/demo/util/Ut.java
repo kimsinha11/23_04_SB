@@ -1,29 +1,32 @@
 package com.KoreaIT.ksh.demo.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class Ut {
 
 	public static boolean empty(Object obj) {
-		if(obj == null) {
+		if (obj == null) {
 			return true;
 		}
-		if(obj instanceof String == false) {
+		if (obj instanceof String == false) {
 			return true;
 		}
 		String str = (String) obj;
-		
-		return str.trim().length()==0;
+
+		return str.trim().length() == 0;
 	}
 
 	public static String f(String format, Object... args) {
 		return String.format(format, args);
 	}
-	
+
 	public static String jsHistoryBack(String resultCode, String msg) {
-		
-		if(msg==null) {
-			msg="";
+
+		if (msg == null) {
+			msg = "";
 		}
-		
+
 		return Ut.f("""
 				<script>
 					const msg = '%s'.trim();
@@ -34,7 +37,7 @@ public class Ut {
 				</script>
 				""", msg);
 	}
-	
+
 	public static String jsReplace(String msg, String uri) {
 		if (msg == null) {
 			msg = "";
@@ -75,5 +78,14 @@ public class Ut {
 
 	}
 
+	public static String getEncodedCurrentUri(String currentUri) {
+
+		try {
+			return URLEncoder.encode(currentUri, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return currentUri;
+		}
+	}
 
 }

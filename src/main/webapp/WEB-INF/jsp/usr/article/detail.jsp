@@ -88,15 +88,19 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 						<%
 						if (rq.isLogined()) {
 						%>
-						<button><a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri }">👍</a></button>
-						<span>
-						
-						좋아요 : ${article.goodReactionPoint }&nbsp;
-						</span>
-					
-						<button><a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri }">👎</button>
-						<span>싫어요 : ${article.badReactionPoint }&nbsp;</span>
-						
+						<a
+								href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }"
+								class="btn btn-outline" type="button">
+								👍
+								<span id="likeCount_${article.id}">${article.goodReactionPoint}</span>
+						</a>
+						<a
+								href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }"
+								class="btn btn-outline" type="button">
+								👎
+								<span id="DisLikeCount_${article.id}">${article.badReactionPoint}</span>
+						</a>
+
 						<%
 						}
 						%>

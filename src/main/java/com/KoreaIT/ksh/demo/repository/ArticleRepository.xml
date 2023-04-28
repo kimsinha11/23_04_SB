@@ -98,4 +98,11 @@
 		SET hitCount = hitCount + 1
 		WHERE id = #{id}
 	</update>
+	
+	<update id="decreaseGoodReactionPoint">
+		UPDATE article
+		SET goodReactionPoint = goodReactionPoint - 1
+		WHERE id = #{relId}
+	</update>
+	
 </mapper>

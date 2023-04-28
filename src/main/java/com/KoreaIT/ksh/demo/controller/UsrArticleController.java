@@ -69,7 +69,7 @@ public class UsrArticleController {
 		}
 		articleService.modifyArticle(id, title, body);
 
-		return Ut.jsReplace("S-1", "수정되었습니다", "list");
+		return Ut.jsReplace("S-1", "수정완료", Ut.f("../article/detail?id=%d", id));
 
 	}
 
@@ -153,7 +153,7 @@ public class UsrArticleController {
 		model.addAttribute("article", article);
 		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
 		
-		boolean actorCanMakeReaction = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(),"article", id);
+		ResultData actorCanMakeReaction  = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(),"article", id);
 		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
 		
 		return "usr/article/detail";

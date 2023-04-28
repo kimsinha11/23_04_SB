@@ -102,14 +102,24 @@ public class Rq {
 		return Ut.jsReplace(msg, uri);
 	}
 	
+	
 	public String getCurrentUri() {
 		String currentUri = req.getRequestURI();
 		String queryString = req.getQueryString();
 		
-		if(queryString != null && queryString.length() > 0) {
+		System.out.println(currentUri);
+		System.out.println(queryString);
+		
+		if (queryString != null && queryString.length() > 0) {
 			currentUri += "?" + queryString;
 		}
-		
+
+		System.out.println(currentUri);
 		return currentUri;
+
+	}
+	
+	public String getEncodedCurrentUri() {
+		return Ut.getEncodedCurrentUri(getCurrentUri());
 	}
 }
