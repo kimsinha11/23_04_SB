@@ -33,7 +33,7 @@
 					<th style="font-size: 19px">조회수</th>
 					<th style="font-size: 19px">좋아요</th>
 					<th style="font-size: 19px">싫어요</th>
-					<th style="font-size: 19px">추천도</th>
+			
 				</tr>
 			</thead>
 			<tbody>
@@ -49,9 +49,9 @@
 						</th>
 						<th>${article.name }</th>
 						<th>${article.hitCount }</th>
-						<th>${article.extra__goodReactionPoint }</th>
-						<th>${article.extra__badReactionPoint }</th>
-						<th>${article.extra__sumReactionPoint }</th>
+						<th>${article.goodReactionPoint }</th>
+						<th>${article.badReactionPoint }</th>
+	
 					</tr>
 				</c:forEach>
 			</tbody>

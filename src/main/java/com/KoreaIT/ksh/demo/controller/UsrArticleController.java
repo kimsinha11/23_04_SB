@@ -140,11 +140,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(Model model, int id) {
-		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
 		
-		if (increaseHitCountRd.isFail()) {
-			return rq.jsHistoryBackOnView(increaseHitCountRd.getMsg());
-		}
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
@@ -153,7 +149,10 @@ public class UsrArticleController {
 
 		model.addAttribute("article", article);
 		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
-
+		
+		boolean actorCanMakeReaction = articleService.actorCanMakeReaction(rq.getLoginedMemberId(), id);
+		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
+		
 		return "usr/article/detail";
 	}
 
