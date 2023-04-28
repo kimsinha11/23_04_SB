@@ -16,7 +16,9 @@
 		boardId =
 		#{boardId},
 		hitCount =
-		0
+		0,
+		goodReactionPoint = 0,
+		badReactionPoint = 0
 	</insert>
 
 	<select id="getArticles" resultType="Article">

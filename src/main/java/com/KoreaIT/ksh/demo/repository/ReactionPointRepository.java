@@ -1,11 +1,8 @@
 package com.KoreaIT.ksh.demo.repository;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-
-import com.KoreaIT.ksh.demo.vo.Reaction;
 
 @Mapper
 public interface ReactionPointRepository {
@@ -21,5 +18,33 @@ public interface ReactionPointRepository {
 			</script>
 			""")
 	public int getSumReactionPointByMemberId(int actorId, String relTypeCode, int id);
+
+	
+	@Insert("""
+			<script>
+				INSERT INTO reactionPoint
+				SET regDate = NOW(),
+				updateDate = NOW(),
+				relTypeCode = #{relTypeCode},
+				relId = #{id},
+				memberId = #{actorId},
+				`point` = 1
+			</script>
+			""")
+	public int addGoodReactionPoint(int actorId, String relTypeCode, int id);
+
+	
+	@Insert("""
+			<script>
+				INSERT INTO reactionPoint
+				SET regDate = NOW(),
+				updateDate = NOW(),
+				relTypeCode = #{relTypeCode},
+				relId = #{id},
+				memberId = #{actorId},
+				`point` = -1
+			</script>
+			""")
+	public int addBadReactionPoint(int actorId, String relTypeCode, int id);
 
 }

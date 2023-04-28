@@ -65,6 +65,22 @@ public interface ArticleRepository {
 
 	public Object findById(int id);
 
+	@Update("""
+			<script>
+				UPDATE article
+				SET goodReactionPoint = goodReactionPoint + 1
+				WHERE id = #{relId}
+			</script>
+			""")
+	public int increaseGoodReactionPoint(int relId);
 
-	
+	@Update("""
+			<script>
+				UPDATE article
+				SET goodReactionPoint = goodReactionPoint + 1
+				WHERE id = #{relId} 
+			</script>
+			""")
+	public int increaseBadReactionPoint(int relId);
+
 }

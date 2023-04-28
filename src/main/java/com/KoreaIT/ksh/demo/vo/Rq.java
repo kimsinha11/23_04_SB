@@ -89,7 +89,27 @@ public class Rq {
 		return "usr/common/common";
 	}
 
+	
+	// Rq 객체 생성 유도
+	// 삭제 x, BeforActionInterceptor에서 
 	public void initOnBeforeActionInterceptor() {
 	
+	}
+	public String jsHitoryBack(String resultCode, String msg) {
+		return Ut.jsHistoryBack(resultCode, msg);
+	}
+	public String jsReplace(String msg, String uri) {
+		return Ut.jsReplace(msg, uri);
+	}
+	
+	public String getCurrentUri() {
+		String currentUri = req.getRequestURI();
+		String queryString = req.getQueryString();
+		
+		if(queryString != null && queryString.length() > 0) {
+			currentUri += "?" + queryString;
+		}
+		
+		return currentUri;
 	}
 }

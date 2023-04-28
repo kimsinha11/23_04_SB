@@ -71,40 +71,36 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 												<span class="article-detail__hit-count">${article.hitCount }</span>
 										</th>
 								</tr>
-
-								<tr>
-										<th>추천</th>
-										<td>
-												<span>좋아요 : ${article.goodReactionPoint }&nbsp;</span>
-												<span>싫어요 : ${article.badReactionPoint }&nbsp;</span>
-												<c:if test="${actorCanMakeReaction }">
-												<div>
-														<span>
-																<span>&nbsp;</span>
-																<button>👍</button>
-														</span>
-														<span>
-																<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-																<button>👎</button>
-														</span>
-														</div>
-												</c:if>
-										</td>
-								</tr>
-
 						</thead>
 
 				</table>
 
 		</div>
 		<div class="btns">
-				<%
-				if (article.getMemberId() != loginedMemberId) {
-				%>
-				<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="history.back()">뒤로가기</button>
-				<%
-				}
-				%>
+				<div style="text-align: center">
+						<%
+						if (article.getMemberId() != loginedMemberId) {
+						%>
+						<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="history.back()">뒤로가기</button>
+						<%
+						}
+						%>
+						<%
+						if (rq.isLogined()) {
+						%>
+						<button><a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri }">👍</a></button>
+						<span>
+						
+						좋아요 : ${article.goodReactionPoint }&nbsp;
+						</span>
+					
+						<button><a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri }">👎</button>
+						<span>싫어요 : ${article.badReactionPoint }&nbsp;</span>
+						
+						<%
+						}
+						%>
+				</div>
 				<div style="text-align: center">
 						<%
 						if (article.getMemberId() == loginedMemberId) {
