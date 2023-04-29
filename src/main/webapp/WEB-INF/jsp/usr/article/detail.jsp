@@ -32,33 +32,58 @@
 		//setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
 
-  function doGoodReaction(articleId) {
-        $.ajax({
-            url: '/usr/reactionPoint/doGoodReaction',
-            type: 'POST',
-            data: {relTypeCode: 'article', relId: articleId},
-            dataType: 'json',
-            success: function(data) {
-                if (data.resultCode.startsWith('S-')) {
-                    var likeButton = $('#likeButton');
-                    var likeCount = $('#likeCount');
-                    if (data.resultCode == 'S-1') {
-                        likeButton.removeClass('btn-danger').addClass('btn-outline');
-                        likeCount.text(parseInt(likeCount.text()) - 1);
-                    } else {
-                        likeButton.removeClass('btn-outline').addClass('btn-danger');
-                        likeCount.text(parseInt(likeCount.text()) + 1);
-                    }
+// 좋아요 버튼 클릭 시 호출되는 함수
+function doGoodReaction(articleId) {
+    $.ajax({
+        url: '/usr/reactionPoint/doGoodReaction',
+        type: 'POST',
+        data: {relTypeCode: 'article', relId: articleId},
+        dataType: 'json',
+        success: function(data) {
+            console.log(data)
+            if (data.resultCode.startsWith('S-')) {
+                var likeButton = $('#likeButton');
+                var likeCount = $('#likeCount');
+                var likedArticles = JSON.parse(localStorage.getItem('likedArticles')) || [];
+
+                if (data.resultCode == 'S-1') {
+                    likeButton.removeClass('btn-danger').addClass('btn-outline');
+                    likeCount.text(parseInt(likeCount.text()) - 1);
+
+                    // 사용자가 좋아요를 취소한 게시물의 ID를 로컬 스토리지에서 제거
+                    likedArticles = likedArticles.filter(function(likedArticleId) {
+                        return likedArticleId != articleId;
+                    });
                 } else {
-                    alert('오류가 발생했습니다: ' + data.msg);
+                    likeButton.removeClass('btn-outline').addClass('btn-danger');
+                    likeCount.text(parseInt(likeCount.text()) + 1);
+
+                    // 사용자가 좋아요를 누른 게시물의 ID를 로컬 스토리지에 추가
+                    if (!likedArticles.includes(articleId)) {
+                        likedArticles.push(articleId);
+                    }
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('오류가 발생했습니다: ' + textStatus);
+
+                // 로컬 스토리지에 사용자가 좋아요를 누른 게시물의 ID를 저장
+                localStorage.setItem('likedArticles', JSON.stringify(likedArticles));
+            } else {
+                alert('오류가 발생했습니다: ' + data.msg);
             }
-        });
-    }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('오류가 발생했습니다: ' + textStatus);
+        }
+    });
+}
+	// 페이지가 로드될 때 호출되는 함수
+	function initPage() {
+	    var likedArticles = JSON.parse(localStorage.getItem('likedArticles')) || [];
+	    likedArticles.forEach(function(likedArticleId) {
+	        $('#likeButton[data-article-id="' + likedArticleId + '"]').removeClass('btn-outline').addClass('btn-danger');
+	    });
+	}
 	
+
     function doBadReaction(articleId) {
         $.ajax({
             url: '/usr/reactionPoint/doBadReaction',
