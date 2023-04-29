@@ -9,63 +9,12 @@ import org.apache.ibatis.annotations.Select;
 public interface ReactionPointRepository {
 
 
-	@Select("""
-			<script>
-				SELECT IFNULL(SUM(rp.point),0)
-				FROM reactionPoint AS rp
-				WHERE rp.relTypeCode = #{relTypeCode}
-				AND rp.relId = #{id}
-				AND rp.memberId = #{actorId}
-			</script>
-			""")
-	public int getSumReactionPointByMemberId(int actorId, String relTypeCode, int id);
+	public int getSumReactionPointByMemberId(int actorId, String relTypeCode, int relId);
 
+	public int addGoodReactionPoint(int actorId, String relTypeCode, int relId);
 	
-	@Insert("""
-			<script>
-				INSERT INTO reactionPoint
-				SET regDate = NOW(),
-				updateDate = NOW(),
-				relTypeCode = #{relTypeCode},
-				relId = #{id},
-				memberId = #{actorId},
-				`point` = 1
-			</script>
-			""")
-	public int addGoodReactionPoint(int actorId, String relTypeCode, int id);
+	public int addBadReactionPoint(int actorId, String relTypeCode, int relId);
 
-	
-	@Insert("""
-			<script>
-				INSERT INTO reactionPoint
-				SET regDate = NOW(),
-				updateDate = NOW(),
-				relTypeCode = #{relTypeCode},
-				relId = #{id},
-				memberId = #{actorId},
-				`point` = -1
-			</script>
-			""")
-	public int addBadReactionPoint(int actorId, String relTypeCode, int id);
-
-	@Delete("""
-			<script>
-			DELETE FROM reactionPoint
-		WHERE memberId = #{actorId} 
-		AND relTypeCode = #{relTypeCode}
-		AND relId = #{relId};
-			</script>
-			""")
-	public void deleteGoodReactionPoint(int actorId, String relTypeCode, int relId);
-
-	@Delete("""
-			<script>
-			DELETE FROM reactionPoint
-		WHERE memberId = #{actorId} 
-		AND relTypeCode = #{relTypeCode}
-		AND relId = #{relId};
-			</script>
-			""")
-	public void deleteBadReactionPoint(int actorId, String relTypeCode, int relId);
+	public void deleteReactionPoint(int actorId, String relTypeCode, int relId);
 
 }

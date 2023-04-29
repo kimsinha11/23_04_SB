@@ -31,6 +31,60 @@
 		//연습
 		//setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
+
+  function doGoodReaction(articleId) {
+        $.ajax({
+            url: '/usr/reactionPoint/doGoodReaction',
+            type: 'POST',
+            data: {relTypeCode: 'article', relId: articleId},
+            dataType: 'json',
+            success: function(data) {
+                if (data.resultCode.startsWith('S-')) {
+                    var likeButton = $('#likeButton');
+                    var likeCount = $('#likeCount');
+                    if (data.resultCode == 'S-1') {
+                        likeButton.removeClass('btn-danger').addClass('btn-outline');
+                        likeCount.text(parseInt(likeCount.text()) - 1);
+                    } else {
+                        likeButton.removeClass('btn-outline').addClass('btn-danger');
+                        likeCount.text(parseInt(likeCount.text()) + 1);
+                    }
+                } else {
+                    alert('오류가 발생했습니다: ' + data.msg);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('오류가 발생했습니다: ' + textStatus);
+            }
+        });
+    }
+	
+    function doBadReaction(articleId) {
+        $.ajax({
+            url: '/usr/reactionPoint/doBadReaction',
+            type: 'POST',
+            data: {relTypeCode: 'article', relId: articleId},
+            dataType: 'json',
+            success: function(data) {
+                if (data.resultCode.startsWith('S-')) {
+                    var DislikeButton = $('#DislikeButton');
+                    var DislikeCount = $('#DislikeCount');
+                    if (data.resultCode == 'S-1') {
+                    	DislikeButton.removeClass('btn-danger').addClass('btn-outline');
+                        DislikeCount.text(parseInt(DislikeCount.text()) - 1);
+                    } else {
+                    	DislikeButton.removeClass('btn-outline').addClass('btn-danger');
+                        DislikeCount.text(parseInt(DislikeCount.text()) + 1);
+                    }
+                } else {
+                    alert('오류가 발생했습니다: ' + data.msg);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('오류가 발생했습니다: ' + textStatus);
+            }
+        });
+    }
 </script>
 <%
 Article article = (Article) request.getAttribute("article");
@@ -92,29 +146,29 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 			if (rq.isLogined()) {
 			%>
 
+			<c:if test="${actorCanMakeReaction}">
+				<button id="likeButton" class="btn btn-outline" type="button"
+					onclick="doGoodReaction(${param.id})">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+						viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round"
+							stroke-width="2"
+							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+			  </svg>
+					<span id="likeCount">${article.goodReactionPoint}</span>
 
-			<a
-				href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }"
-				class="btn btn-outline" type="button"> <i
-				class="liked-icon fa-heart fas fa-lg"></i><span
-				id="LikeCount_${article.id}">${article.goodReactionPoint}</span>
-			</a> <a
-				href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }"
-				class="btn btn-outline" type="button"> <i
-				class="liked-icon fa-heart far fa-lg"></i> <span
-				id="DisLikeCount_${article.id}">${article.badReactionPoint}</span>
-			</a>
-
-			<div class="reaction-buttons">
-				<a href="#" class="reaction-button good-button"> <i
-					class="fa fa-heart-o"></i> <i class="fa fa-heart"></i> <span
-					class="reaction-count">0</span>
-				</a> <a href="#" class="reaction-button bad-button"> <i
-					class="fa fa-thumbs-o-down"></i> <i class="fa fa-thumbs-down"></i>
-					<span class="reaction-count">0</span>
-				</a>
-			</div>
-
+				</button>
+				<button id="DislikeButton" class="btn btn-outline" type="button"
+					onclick="doBadReaction(${param.id})">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+						viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round"
+							stroke-width="2"
+							d="M18,4h3v10h-3V4z M5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21c0.58,0,1.14-0.24,1.52-0.65L17,14V4H6.57 C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14z" />
+			  </svg>
+					<span id="DislikeCount">${article.badReactionPoint}</span>
+				</button>
+			</c:if>
 			<%
 			}
 			%>
@@ -138,40 +192,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 	</div>
 
 
-	<script>
-	const goodButton = document.querySelector('.good-button');
-	const badButton = document.querySelector('.bad-button');
 
-	goodButton.addEventListener('click', () => {
-	  goodButton.classList.toggle('liked');
-	  const countEl = goodButton.querySelector('.reaction-count');
-	  const count = parseInt(countEl.textContent);
-	  if (goodButton.classList.contains('liked')) {
-	    goodButton.querySelector('.fa-heart-o').style.display = 'none';
-	    goodButton.querySelector('.fa-heart').style.display = 'inline-block';
-	    countEl.textContent = count + 1;
-	  } else {
-	    goodButton.querySelector('.fa-heart-o').style.display = 'inline-block';
-	    goodButton.querySelector('.fa-heart').style.display = 'none';
-	    countEl.textContent = count - 1;
-	  }
-	});
-
-	badButton.addEventListener('click', () => {
-	  badButton.classList.toggle('disliked');
-	  const countEl = badButton.querySelector('.reaction-count');
-	  const count = parseInt(countEl.textContent);
-	  if (badButton.classList.contains('disliked')) {
-	    badButton.querySelector('.fa-thumbs-o-down').style.display = 'none';
-	    badButton.querySelector('.fa-thumbs-down').style.display = 'inline-block';
-	    countEl.textContent = count + 1;
-	  } else {
-	    badButton.querySelector('.fa-thumbs-o-down').style.display = 'inline-block';
-	    badButton.querySelector('.fa-thumbs-down').style.display = 'none';
-	    countEl.textContent = count - 1;
-	  }
-	});
-</script>
 </section>
 
 

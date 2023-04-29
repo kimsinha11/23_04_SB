@@ -3,15 +3,20 @@ package com.KoreaIT.ksh.demo.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Ut {
 
 	public static boolean empty(Object obj) {
+
 		if (obj == null) {
 			return true;
 		}
+
 		if (obj instanceof String == false) {
 			return true;
 		}
+
 		String str = (String) obj;
 
 		return str.trim().length() == 0;
@@ -30,10 +35,10 @@ public class Ut {
 		return Ut.f("""
 				<script>
 					const msg = '%s'.trim();
-					if(msg.length > 0){
+					if ( msg.length > 0 ){
 						alert(msg);
 					}
-					history.back()
+					history.back();
 				</script>
 				""", msg);
 	}
@@ -78,8 +83,15 @@ public class Ut {
 
 	}
 
-	public static String getEncodedCurrentUri(String currentUri) {
+	public static String jsHitoryBackOnView(HttpServletRequest req, String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
 
+		return "usr/common/js";
+	}
+
+	public static String getEncodedCurrentUri(String currentUri) {
+		
 		try {
 			return URLEncoder.encode(currentUri, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -87,5 +99,6 @@ public class Ut {
 			return currentUri;
 		}
 	}
+
 
 }

@@ -83,26 +83,22 @@ public class Rq {
 		
 	}
 	
+
 	public String jsHistoryBackOnView(String msg) {
 		req.setAttribute("msg", msg);
-		req.setAttribute("historyBack",true);
-		return "usr/common/common";
+		req.setAttribute("historyBack", true);
+		return "usr/common/js";
+
 	}
 
-	
-	// Rq 객체 생성 유도
-	// 삭제 x, BeforActionInterceptor에서 
-	public void initOnBeforeActionInterceptor() {
-	
-	}
-	public String jsHitoryBack(String resultCode, String msg) {
+	public String jsHistoryBack(String resultCode, String msg) {
 		return Ut.jsHistoryBack(resultCode, msg);
 	}
+
 	public String jsReplace(String msg, String uri) {
 		return Ut.jsReplace(msg, uri);
 	}
-	
-	
+
 	public String getCurrentUri() {
 		String currentUri = req.getRequestURI();
 		String queryString = req.getQueryString();
@@ -122,4 +118,12 @@ public class Rq {
 	public String getEncodedCurrentUri() {
 		return Ut.getEncodedCurrentUri(getCurrentUri());
 	}
+
+	// Rq 객체 생성 유도
+	// 삭제 x, BeforeActionInterceptor 에서 강제 호출
+	public void initOnBeforeActionInterceptor() {
+
+	}
+
+
 }

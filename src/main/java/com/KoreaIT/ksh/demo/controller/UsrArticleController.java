@@ -143,22 +143,30 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(Model model, int id) {
-		
+
 		Article article = articleService.getArticle(id);
 
-		if (article == null) {
-			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다", id));
-		}
-
+		ResultData<Integer> actorCanMakeReactionRd = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(), "id", id);
 		model.addAttribute("article", article);
 		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
-		
-		ResultData actorCanMakeReaction  = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(),"article", id);
-		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
-		
+		model.addAttribute("actorCanMakeReactionRd", actorCanMakeReactionRd);
+
+		if (actorCanMakeReactionRd.isSuccess()) {
+			model.addAttribute("actorCanMakeReaction", actorCanMakeReactionRd.isSuccess());
+		}
+
+		if (actorCanMakeReactionRd.getResultCode().equals("F-1")) {
+			int sumReactionPointByMemberId = (int) actorCanMakeReactionRd.getData1();
+
+			if (sumReactionPointByMemberId > 0) {
+				model.addAttribute("actorCanCancelGoodReaction", true);
+			} else if (sumReactionPointByMemberId < 0) {
+				model.addAttribute("actorCanCancelBadReaction", true);
+			}
+		}
+
 		return "usr/article/detail";
 	}
-
 
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
