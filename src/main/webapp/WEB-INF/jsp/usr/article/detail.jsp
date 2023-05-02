@@ -237,7 +237,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 								<input value="${article.id }" class="input input-bordered w-full max-w-xs" type="hidden" name="relId" />
 								<input type="hidden" name="relTypeCode" value="article" />
 								<input value="${article.boardId }" class="input input-bordered w-full max-w-xs" type="hidden" name="boardId" />
-						
+
 						</div>
 
 						<div>작성자 : ${rq.loginedMember.nickname}</div>
@@ -263,10 +263,9 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 				<tr>
 						<th style="font-size: 19px">내용</th>
 						<th style="font-size: 19px">날짜</th>
-						<th style="font-size: 19px">작성자</th>		
+						<th style="font-size: 19px">작성자</th>
 						<th style="font-size: 19px">수정</th>
 						<th style="font-size: 19px">삭제</th>
-						
 
 				</tr>
 		</thead>
@@ -279,11 +278,11 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 								
 								<th>
 										<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
-												href="../comment/cmodify?id=${comment.id }">수정</a>
+												href="../comment/cmodify?id=${comment.id }&relId=${comment.relId }">수정</a>
 								</th>
 								<th>
 										<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-												href="../comment/cdelete?id=${comment.id }">삭제</a>
+												href="../comment/cdelete?id=${comment.id }&relId=${comment.relId }">삭제</a>
 								</th>
 							
 						</tr>

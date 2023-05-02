@@ -87,7 +87,7 @@ public class Ut {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
 
-		return "usr/common/js";
+		return "usr/common/common";
 	}
 
 	public static String getEncodedCurrentUri(String currentUri) {

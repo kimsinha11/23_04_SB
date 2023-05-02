@@ -134,8 +134,8 @@ public class UsrArticleController {
 		List<Article> articles = articleService.getArticles(boardId, itemsInAPage, itemsPerPage, searchKeyword,
 				searchId);
 
+		
 		model.addAttribute("board", board);
-
 		model.addAttribute("articles", articles);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("totalPages", totalPages);
@@ -171,7 +171,7 @@ public class UsrArticleController {
 		}
 
 			List<Comment> comments = commentService.getComments(id);
-	
+
 			model.addAttribute("comments", comments);
 		
 		return "usr/article/detail";

@@ -33,6 +33,7 @@
 					<th style="font-size: 19px">조회수</th>
 					<th style="font-size: 19px">좋아요</th>
 					<th style="font-size: 19px">싫어요</th>
+					<th style="font-size: 19px">댓글수</th>
 			
 				</tr>
 			</thead>

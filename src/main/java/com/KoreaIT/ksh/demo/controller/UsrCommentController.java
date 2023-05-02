@@ -31,7 +31,7 @@ public class UsrCommentController {
 
 	@RequestMapping("/usr/comment/cmodify")
 
-	public String cmodify(Model model, int id, String body) {
+	public String cmodify(Model model, int id) {
 
 		Comment comment = commentService.getComment(id);
 
@@ -48,16 +48,10 @@ public class UsrCommentController {
 
 	}
 
-	@RequestMapping("/usr/comment/cwrite")
-
-	public String cwrite(Model model, String body) {
-
-		return "usr/comment/cwrite";
-	}
 
 	@RequestMapping("/usr/comment/docModify")
 	@ResponseBody
-	public String docModify(int id, String body) {
+	public String docModify(int id,String body, int relId) {
 
 		Comment comment = commentService.getComment(id);
 
@@ -66,9 +60,9 @@ public class UsrCommentController {
 		}
 		if (comment.getMemberId() == rq.getLoginedMemberId()) {
 			commentService.cmodifyComment(id, body);
-			return Ut.jsReplace("S-1", "수정완료", Ut.f("../article/detail?id=%d", id));
+			return Ut.jsReplace("S-1", "수정완료", Ut.f("../article/detail?id=%d", relId));
 		} else {
-			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
+			return rq.jsHistoryBackOnView(Ut.f("권한이없습니다."));
 		}
 
 	}
@@ -91,17 +85,17 @@ public class UsrCommentController {
 
 	@RequestMapping("/usr/comment/cdelete")
 	@ResponseBody
-	public String docDelete(Model model, int id) {
+	public String docDelete(Model model, int id, int relId) {
 
 		Comment comment = commentService.getComment(id);
 		if (comment == null) {
-			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
+			return Ut.jsHistoryBack("F-D", id + "번 댓글은 존재하지 않습니다.");
 		}
 
 		if (comment.getMemberId() == rq.getLoginedMemberId()) {
-			commentService.deletecComment(id);
+			commentService.cdeleteComment(id);
 			model.addAttribute("comment", comment);
-			return Ut.jsReplace("S-1", "삭제완료", Ut.f("../article/detail?id=%d", id));
+			return Ut.jsReplace("S-1", "삭제완료", Ut.f("../article/detail?id=%d", relId));
 		} else {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}

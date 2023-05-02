@@ -17,7 +17,7 @@ public interface CommentRepository {
 
 	public int getLastInsertId();
 
-	public void deletecComment(int id);
+	public void cdeleteComment(int id);
 
 	public List<Comment> getComments(int id);
 }

@@ -43,8 +43,8 @@ public class CommentService {
 
 	}
 
-	public void deletecComment(int id) {
-		commentRepository.deletecComment(id);
+	public void cdeleteComment(int id) {
+		commentRepository.cdeleteComment(id);
 		
 	}
 
