@@ -250,6 +250,40 @@ SET `body` = '내용6'
 WHERE id= 3;
 
 
+# 댓글 테이블 생성
+CREATE TABLE COMMENT(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    `body` TEXT NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    boardId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT(10) UNSIGNED NOT NULL,
+    goodReactionPoint INT(10) UNSIGNED NOT NULL,
+    badReactionPoint INT(10) UNSIGNED NOT NULL
+);
+
+# 게시물 테스트데이터 생성
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목 1',
+`body` = '내용 1';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목 2',
+`body` = '내용 2';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목 3',
+`body` = '내용 3';
+
+
 # 게시물 갯수 늘리기
 INSERT INTO article 
 ( 
@@ -334,3 +368,21 @@ LEFT JOIN reactionPoint AS RP
 ON A.id = RP.relId AND RP.relTypeCode = 'article'
 GROUP BY A.id
 ORDER BY A.id DESC;
+
+SELECT comment.*,
+		IFNULL(SUM(reactionPoint.point),0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point > 0,reactionPoint.point,0)),0) AS extra__goodReactionPoint,
+		IFNULL(SUM(IF(reactionPoint.point < 0,reactionPoint.point,0)),0) AS extra__badReactionPoint, member.name AS 'name'
+		FROM COMMENT
+		INNER JOIN `member`
+		ON comment.memberId = member.id
+		LEFT JOIN reactionPoint
+		ON comment.id = reactionPoint.relId AND reactionPoint.relTypeCode = 'comment'
+		WHERE comment.id
+		=
+		2
+		
+SELECT comment.*, member.name
+FROM `comment`
+INNER JOIN `member`
+ON comment.memberId = member.id

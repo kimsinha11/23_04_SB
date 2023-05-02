@@ -15,6 +15,7 @@ public class Comment {
 	private int memberId;
 	private String name;
 	private int boardId;
+	private String relTypeCode;
 	private int relId;
 	private int goodReactionPoint;
 	private int badReactionPoint;

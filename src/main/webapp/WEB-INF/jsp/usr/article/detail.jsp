@@ -215,8 +215,8 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 if (rq.isLogined()) {
 %>
 <form style="text-align: center;" method="post" action="../comment/docWrite">
-		<div style="display: inline-block; border: 2px solid black; width: 700px; height: 150px; text-align: left;">
-				<div>
+		<div style="display: inline-block; border: 2px solid black; width: 700px; height: 100px; text-align: left;">
+				<div style= "display: none">
 						번호 :
 						<input value="${article.id }" class="input input-bordered w-full max-w-xs" type="hidden" name="relId" />
 						게시판 번호 :
@@ -227,15 +227,16 @@ if (rq.isLogined()) {
 				<div>
 						내용 :
 						<textarea type="text" class="input input-bordered w-full max-w-xs" placeholder="내용을 입력해주세요" name="body" /></textarea>
+						<button class="btn-text-link btn btn-outline btn-xs" style="display: inline" type="submit">작성하기</button>
 				</div>
 
-				<button class="btn-text-link btn btn-outline btn-xs" style="display: inline" type="submit">작성하기</button>
+				
 		</div>
 </form>
 <%
 }
 %>
-
+<br></br>
 <table class="table-box-type-2 table w-full" style="border-collaspe: collaspe; width: 700px; ">
 		<thead>
 
@@ -244,6 +245,8 @@ if (rq.isLogined()) {
 						<th style="font-size: 19px">날짜</th>
 						<th style="font-size: 19px">내용</th>
 						<th style="font-size: 19px">작성자</th>
+						<th style="font-size: 19px">좋아요</th>
+						<th style="font-size: 19px">싫어요</th>
 
 				</tr>
 		</thead>
@@ -256,6 +259,21 @@ if (rq.isLogined()) {
 								<th>${comment.regDate.substring(0,10) }</th>
 								<th>${comment.body }</th>
 								<th>${comment.name}</th>
+								<th><button id="likeButton" class="btn btn-outline" type="button" onclick="doGoodReaction(${param.id})">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+														d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+			  </svg>
+										<span id="likeCount">${comment.goodReactionPoint}</span>
+
+								</button></th>
+								<th><button id="DislikeButton" class="btn btn-outline" type="button" onclick="doBadReaction(${param.id})">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+														d="M18,4h3v10h-3V4z M5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21c0.58,0,1.14-0.24,1.52-0.65L17,14V4H6.57 C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14z" />
+			  </svg>
+										<span id="DislikeCount">${comment.badReactionPoint}</span>
+								</button></th>
 						</tr>
 				</c:forEach>
 		</tbody>
