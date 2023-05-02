@@ -19,5 +19,6 @@ public class Article {
 	private int hitCount;
 	private int goodReactionPoint;
 	private int badReactionPoint;
+	private int count;
 //	private boolean actorCanDelete;
 }

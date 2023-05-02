@@ -133,8 +133,9 @@ public class UsrArticleController {
 		int itemsInAPage = (pageNum - 1) * itemsPerPage;
 		List<Article> articles = articleService.getArticles(boardId, itemsInAPage, itemsPerPage, searchKeyword,
 				searchId);
-
+		List<Article> commentsCount = articleService.getCommentsCount();
 		
+		model.addAttribute("commentsCount", commentsCount);
 		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
 		model.addAttribute("totalCount", totalCount);

@@ -1,29 +1,35 @@
 @font-face {
-    font-family: 'KCCChassam';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'KCCChassam';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
 }
 
-html > body {
+html>body {
 	font-family: 'KCCChassam', woff2;
 }
 
 /* 라이브러리 */
-.table-box-type-1>thead th, .table-box-type-1 th{
+.table-box-type-1>thead th, .table-box-type-1 th {
 	border: 2px solid black;
-		
-}
-.table-box-type-2>thead th, .table-box-type-2 th{
-	border: 2px solid black;
-	height: 0;	
 }
 
-.menu-box:hover {
-	background-color: pink;
-	color: black;
+.table-box-type-2>thead th, .table-box-type-2 th {
+	border: 2px solid black;
+	height: 0;
 }
 
+.title-text,
+.comment-count {
+  display: inline-block;
+}
+
+.title-text:hover,
+.comment-count:hover {
+  text-decoration: underline;
+}
 
 table {
 	border: 2px solid black;
@@ -34,11 +40,11 @@ table {
 	margin-right: auto;
 }
 
-body > div> div > ul > li > a{
+body>div>div>ul>li>a {
 	display: none;
 }
 
-body > div > .list:hover >  ul > li > a {
+body>div>.list:hover>ul>li>a {
 	display: block;
 }
 
@@ -56,22 +62,21 @@ th {
 }
 
 .pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
 }
 
 .pagination a {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  border: 1px solid #ddd;
-  margin: 0 4px;
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	border: 1px solid #ddd;
+	margin: 0 4px;
 }
 
 .btn-text-link.active {
-  color: white;
-  background-color: #6c757d;
+	color: white;
+	background-color: #6c757d;
 }
-

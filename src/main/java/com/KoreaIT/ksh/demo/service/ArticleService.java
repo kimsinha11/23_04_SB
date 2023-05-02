@@ -114,6 +114,10 @@ public class ArticleService {
 
 	}
 
+	public List<Article> getCommentsCount() {
+		return articleRepository.getCommentsCount();
+	}
+
 
 
 }

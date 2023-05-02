@@ -93,6 +93,14 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 
+	<select id="getCommentsCount" resultType="Article">
+		SELECT article.id AS 'id', COUNT(*) AS 'count'
+				FROM `comment`
+				INNER JOIN article
+				ON comment.relId = article.id
+				GROUP BY article.id
+	</select>
+
 	<update id="increaseHitCount">
 		UPDATE article
 		SET hitCount = hitCount + 1

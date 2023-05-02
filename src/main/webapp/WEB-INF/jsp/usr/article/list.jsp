@@ -3,15 +3,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <c:set var="pageTitle" value="${board.name}" />
+<%@ page import="com.KoreaIT.ksh.demo.vo.Article"%>
+<%@ page import="java.util.List"%>
 <c:set var="totalCount" value="${totalCount}" />
 <c:set var="totalPages" value="${totalPages}" />
 <c:set var="pageNum" value="${pageNum}" />
 <c:set var="lastPageInGroup" value="${lastPageInGroup}" />
-
 <c:set var="beginPage" value="${(pageNum - 5 > 0) ? pageNum - 5 : 1}" />
 <c:set var="endPage"
 	value="${(pageNum + 4 < totalPages) ? pageNum + 4 : totalPages}" />
 <c:set var="itemsPerPage" value="${itemsPerPage}" />
+
+<%
+List<Article> commentsCount = (List<Article>) request.getAttribute("commentsCount");
+%>
 <%@ include file="../common/head.jspf"%>
 
 <section class="mt-10 text-xs">
@@ -33,31 +38,37 @@
 					<th style="font-size: 19px">조회수</th>
 					<th style="font-size: 19px">좋아요</th>
 					<th style="font-size: 19px">싫어요</th>
-					<th style="font-size: 19px">댓글수</th>
-			
+
+
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="article" items="${articles }">
+				<c:forEach var="article" items="${articles}">
 					<tr>
-						<th><label> <input type="checkbox" class="checkbox" />
-						</label></th>
+						<th><label><input type="checkbox" class="checkbox" /></label></th>
 						<th>
-							<div class="badge badge-lg">${article.id }</div>
+							<div class="badge badge-lg">${article.id}</div>
 						</th>
-						<th>${article.regDate.substring(0,10) }</th>
-						<th class="title"><a href="detail?id=${article.id }">${article.title }</a>
+						<th>${article.regDate.substring(0,10)}</th>
+						<th class="title">
+							<div class="title-text">
+								<a href="detail?id=${article.id}">${article.title}</a>
+							</div>
+							<div class="comment-count" style="color: red; font-size: 13px;">
+								<c:forEach var="commentsCount" items="${commentsCount}">
+									<c:if test="${commentsCount.id == article.id}"> (${commentsCount.count})  </c:if>
+								</c:forEach>
+							</div>
 						</th>
-						<th>${article.name }</th>
-						<th>${article.hitCount }</th>
-						<th>${article.goodReactionPoint }</th>
-						<th>${article.badReactionPoint }</th>
-	
+						<th>${article.name}</th>
+						<th>${article.hitCount}</th>
+						<th>${article.goodReactionPoint}</th>
+						<th>${article.badReactionPoint}</th>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-	
+
 
 	</div>
 </section>
@@ -96,7 +107,8 @@
 	</c:if>
 
 	<c:if test="${pageNum < totalPages && totalPages - pageNum >= 10}">
-		<a href="?boardId=${article.boardId}&pageNum=${totalPages}&${baseUri2 }">▶▶</a>
+		<a
+			href="?boardId=${article.boardId}&pageNum=${totalPages}&${baseUri2 }">▶▶</a>
 	</c:if>
 </div>
 <br />

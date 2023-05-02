@@ -24,32 +24,31 @@ public interface ArticleRepository {
 	public int getLastInsertId();
 
 	@Select("""
-			<script>
-			SELECT COUNT(*) AS cnt
-			FROM article AS A
-			WHERE 1
-			<if test="boardId != 0">
-				AND A.boardId = #{boardId}
+				<script>
+				SELECT COUNT(*) AS cnt
+				FROM article AS A
+				WHERE 1
+				<if test="boardId != 0">
+					AND A.boardId = #{boardId}
+				</if>
+				<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="searchId != null and searchId.intValue() == 1">
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchId != null and searchId.intValue() == 2">
+						AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<otherwise>
+						AND (title LIKE CONCAT('%', #{searchKeyword}, '%') OR body LIKE
+						CONCAT('%', #{searchKeyword}, '%'))
+					</otherwise>
+				</choose>
 			</if>
-			<if test="searchKeyword != null and searchKeyword != ''">
-			<choose>
-				<when test="searchId != null and searchId.intValue() == 1">
-					AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-				</when>
-				<when test="searchId != null and searchId.intValue() == 2">
-					AND body LIKE CONCAT('%', #{searchKeyword}, '%')
-				</when>
-				<otherwise>
-					AND (title LIKE CONCAT('%', #{searchKeyword}, '%') OR body LIKE
-					CONCAT('%', #{searchKeyword}, '%'))
-				</otherwise>
-			</choose>
-		</if>
-	
-			</script>
-				""")
-	public int getArticlesCount(int boardId, Integer searchId, String searchKeyword);
 
+				</script>
+					""")
+	public int getArticlesCount(int boardId, Integer searchId, String searchKeyword);
 
 	@Select("""
 			<script>
@@ -60,9 +59,7 @@ public interface ArticleRepository {
 			""")
 	public int getArticleHitCount(int id);
 
-	
 	public int increaseHitCount(int id);
-
 
 	public int increaseGoodReactionPoint(int relId);
 
@@ -72,6 +69,6 @@ public interface ArticleRepository {
 
 	public int decreaseBadReactionPoint(int relId);
 
-
+	public List<Article> getCommentsCount();
 
 }
