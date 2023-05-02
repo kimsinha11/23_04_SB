@@ -37,10 +37,10 @@
 		member.id
 		LEFT JOIN reactionPoint
 		ON comment.id = reactionPoint.relId
-		AND reactionPoint.relTypeCode = 'comment'
+		AND reactionPoint.relTypeCode = 'article'
 		WHERE comment.id
 		=
-		#{id}
+		#{id} 
 
 	</select>
 
@@ -68,7 +68,11 @@
 		FROM `comment`
 		INNER JOIN `member`
 		ON comment.memberId = member.id
+		INNER JOIN article
+		ON comment.relId = article.id
+		WHERE comment.relId = #{id}
 		ORDER BY comment.id DESC
+		
 	</select>
 
 </mapper>

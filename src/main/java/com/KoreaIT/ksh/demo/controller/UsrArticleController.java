@@ -170,7 +170,7 @@ public class UsrArticleController {
 			}
 		}
 
-			List<Comment> comments = commentService.getComments();
+			List<Comment> comments = commentService.getComments(id);
 	
 			model.addAttribute("comments", comments);
 		

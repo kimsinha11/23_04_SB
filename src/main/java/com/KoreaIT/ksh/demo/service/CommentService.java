@@ -48,8 +48,8 @@ public class CommentService {
 		
 	}
 
-	public List<Comment> getComments() {
-		return commentRepository.getComments();
+	public List<Comment> getComments(int id) {
+		return commentRepository.getComments(id);
 	}
 
 }

@@ -1,21 +1,17 @@
 package com.KoreaIT.ksh.demo.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.ksh.demo.service.BoardService;
 import com.KoreaIT.ksh.demo.service.CommentService;
 import com.KoreaIT.ksh.demo.service.ReactionPointService;
 import com.KoreaIT.ksh.demo.util.Ut;
-import com.KoreaIT.ksh.demo.vo.Article;
 import com.KoreaIT.ksh.demo.vo.Board;
 import com.KoreaIT.ksh.demo.vo.Comment;
 import com.KoreaIT.ksh.demo.vo.ResultData;
@@ -59,8 +55,6 @@ public class UsrCommentController {
 		return "usr/comment/cwrite";
 	}
 
-
-	
 	@RequestMapping("/usr/comment/docModify")
 	@ResponseBody
 	public String docModify(int id, String body) {
@@ -70,9 +64,12 @@ public class UsrCommentController {
 		if (comment == null) {
 			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
 		}
-		commentService.cmodifyComment(id, body);
-
-		return Ut.jsReplace("S-1", "수정완료", Ut.f("../article/detail?id=%d", id));
+		if (comment.getMemberId() == rq.getLoginedMemberId()) {
+			commentService.cmodifyComment(id, body);
+			return Ut.jsReplace("S-1", "수정완료", Ut.f("../article/detail?id=%d", id));
+		} else {
+			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
+		}
 
 	}
 
@@ -85,9 +82,10 @@ public class UsrCommentController {
 		}
 
 		Board board = BoardService.getBoardById(boardId);
-		ResultData<Integer> writeCommentRd = commentService.cwriteComment(body, rq.getLoginedMemberId(), relId, boardId);
+		ResultData<Integer> writeCommentRd = commentService.cwriteComment(body, rq.getLoginedMemberId(), relId,
+				boardId);
 		int id = (int) writeCommentRd.getData1();
-		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d", id));
+		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d", relId));
 
 	}
 
@@ -103,14 +101,10 @@ public class UsrCommentController {
 		if (comment.getMemberId() == rq.getLoginedMemberId()) {
 			commentService.deletecComment(id);
 			model.addAttribute("comment", comment);
-			return Ut.jsReplace("S-1", "삭제완료",  Ut.f("../article/detail?id=%d", id));
+			return Ut.jsReplace("S-1", "삭제완료", Ut.f("../article/detail?id=%d", id));
 		} else {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
 	}
-
-
-
-
 
 }

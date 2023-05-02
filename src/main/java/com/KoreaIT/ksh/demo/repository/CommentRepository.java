@@ -19,5 +19,5 @@ public interface CommentRepository {
 
 	public void deletecComment(int id);
 
-	public List<Comment> getComments();
+	public List<Comment> getComments(int id);
 }
