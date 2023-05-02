@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.ksh.demo.service.ArticleService;
 import com.KoreaIT.ksh.demo.service.BoardService;
+import com.KoreaIT.ksh.demo.service.CommentService;
 import com.KoreaIT.ksh.demo.service.ReactionPointService;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Article;
 import com.KoreaIT.ksh.demo.vo.Board;
+import com.KoreaIT.ksh.demo.vo.Comment;
 import com.KoreaIT.ksh.demo.vo.ResultData;
 import com.KoreaIT.ksh.demo.vo.Rq;
 
@@ -31,6 +33,9 @@ public class UsrArticleController {
 	private Rq rq;
 	@Autowired
 	private ReactionPointService reactionPointService;
+	@Autowired
+	private CommentService commentService;
+
 
 	@RequestMapping("/usr/article/modify")
 
@@ -140,7 +145,7 @@ public class UsrArticleController {
 
 		return "usr/article/list";
 	}
-
+	
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(Model model, int id) {
 
@@ -165,6 +170,10 @@ public class UsrArticleController {
 			}
 		}
 
+			List<Comment> comments = commentService.getComments();
+	
+			model.addAttribute("comments", comments);
+		
 		return "usr/article/detail";
 	}
 

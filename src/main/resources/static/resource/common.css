@@ -14,7 +14,10 @@ html > body {
 	border: 2px solid black;
 		
 }
-
+.table-box-type-2>thead th, .table-box-type-2 th{
+	border: 2px solid black;
+	height: 0;	
+}
 
 .menu-box:hover {
 	background-color: pink;

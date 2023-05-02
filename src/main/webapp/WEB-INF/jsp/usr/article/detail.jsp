@@ -1,9 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.KoreaIT.ksh.demo.vo.Article"%>
 <c:set var="pageTitle" value="DETAIL" />
 <%@ include file="../common/head.jspf"%>
+<%@ page import="com.KoreaIT.ksh.demo.vo.Comment"%>
+<%
+Comment comment = (Comment) request.getAttribute("comment");
+%>
+
 <!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=2" frameborder="0"></iframe> -->
 <script>
 	const params = {}
@@ -67,11 +71,11 @@ function doGoodReaction(articleId) {
                 // 로컬 스토리지에 사용자가 좋아요를 누른 게시물의 ID를 저장
                 localStorage.setItem('likedArticles', JSON.stringify(likedArticles));
             } else {
-                alert('오류가 발생했습니다: ' + data.msg);
+                alert(data.msg);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            alert('오류가 발생했습니다: ' + textStatus);
+            alert(textStatus);
         }
     });
 }
@@ -102,11 +106,11 @@ function doGoodReaction(articleId) {
                         DislikeCount.text(parseInt(DislikeCount.text()) + 1);
                     }
                 } else {
-                    alert('오류가 발생했습니다: ' + data.msg);
+                    alert(data.msg);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert('오류가 발생했습니다: ' + textStatus);
+                alert(textStatus);
             }
         });
     }
@@ -116,109 +120,147 @@ Article article = (Article) request.getAttribute("article");
 int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 %>
 <section class="mt-10 text-xl">
-	<div class="mx-auto overflow-x-auto">
-		<table class=" table w-full table-box-type-1"
-			style="width: 500px; height: 500px;">
-			<thead>
-				<tr>
-					<th style="font-size: 15px">번호</th>
-					<th>
-						<div class="badge badge-lg">${article.id }</div>
-					</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">작성날짜</th>
-					<th>${article.regDate.substring(0,10) }</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">수정날짜</th>
-					<th>${article.updateDate.substring(0,10) }</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">작성자</th>
-					<th>${article.name }</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">제목</th>
-					<th>${article.title }</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">내용</th>
-					<th>${article.body }</th>
-				</tr>
-				<tr>
-					<th style="font-size: 15px">조회수</th>
-					<th><span class="article-detail__hit-count">${article.hitCount }</span>
-					</th>
-				</tr>
+		<div class="mx-auto overflow-x-auto">
+				<table class=" table w-full table-box-type-1" style="width: 700px; height: 500px;">
+						<thead>
+								<tr>
+										<th style="font-size: 15px">번호</th>
+										<th>
+												<div class="badge badge-lg">${article.id }</div>
+										</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">작성날짜</th>
+										<th>${article.regDate.substring(0,10) }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">수정날짜</th>
+										<th>${article.updateDate.substring(0,10) }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">작성자</th>
+										<th>${article.name }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">제목</th>
+										<th>${article.title }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">내용</th>
+										<th>${article.body }</th>
+								</tr>
+								<tr>
+										<th style="font-size: 15px">조회수</th>
+										<th>
+												<span class="article-detail__hit-count">${article.hitCount }</span>
+										</th>
+								</tr>
 
-			</thead>
+						</thead>
 
-		</table>
+				</table>
 
-	</div>
-	<div class="btns">
-		<div style="text-align: center">
-			<%
-			if (article.getMemberId() != loginedMemberId) {
-			%>
-			<button class="btn-text-link btn btn-outline btn-xs" type="button"
-				onclick="history.back()">뒤로가기</button>
-			<%
-			}
-			%>
-			<%
-			if (rq.isLogined()) {
-			%>
-
-			<c:if test="${actorCanMakeReaction}">
-				<button id="likeButton" class="btn btn-outline" type="button"
-					onclick="doGoodReaction(${param.id})">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-						viewBox="0 0 24 24" stroke="currentColor">
-			    <path stroke-linecap="round" stroke-linejoin="round"
-							stroke-width="2"
-							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-			  </svg>
-					<span id="likeCount">${article.goodReactionPoint}</span>
-
-				</button>
-				<button id="DislikeButton" class="btn btn-outline" type="button"
-					onclick="doBadReaction(${param.id})">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-						viewBox="0 0 24 24" stroke="currentColor">
-			    <path stroke-linecap="round" stroke-linejoin="round"
-							stroke-width="2"
-							d="M18,4h3v10h-3V4z M5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21c0.58,0,1.14-0.24,1.52-0.65L17,14V4H6.57 C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14z" />
-			  </svg>
-					<span id="DislikeCount">${article.badReactionPoint}</span>
-				</button>
-			</c:if>
-			<%
-			}
-			%>
 		</div>
-		<div style="text-align: center">
-			<%
-			if (article.getMemberId() == loginedMemberId) {
-			%>
-			<button class="btn-text-link btn btn-outline btn-xs" type="button"
-				onclick="location.href='list'">뒤로가기</button>
-			<a class="btn-text-link btn btn-outline btn-xs"
-				onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
-				href="modify?id=${article.id }">수정</a> <a
-				class="btn-text-link btn btn-outline btn-xs"
-				onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-				href="delete?id=${article.id }">삭제</a>
-			<%
-			}
-			%>
+		<div class="btns">
+				<div style="text-align: center">
+						<%
+						if (article.getMemberId() != loginedMemberId) {
+						%>
+						<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="history.back()">뒤로가기</button>
+						<%
+						}
+						%>
+						<%
+						if (rq.isLogined()) {
+						%>
+
+						<c:if test="${actorCanMakeReaction}">
+								<button id="likeButton" class="btn btn-outline" type="button" onclick="doGoodReaction(${param.id})">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+														d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+			  </svg>
+										<span id="likeCount">${article.goodReactionPoint}</span>
+
+								</button>
+								<button id="DislikeButton" class="btn btn-outline" type="button" onclick="doBadReaction(${param.id})">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+														d="M18,4h3v10h-3V4z M5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21c0.58,0,1.14-0.24,1.52-0.65L17,14V4H6.57 C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14z" />
+			  </svg>
+										<span id="DislikeCount">${article.badReactionPoint}</span>
+								</button>
+						</c:if>
+						<%
+						}
+						%>
+				</div>
+				<div style="text-align: center">
+						<%
+						if (article.getMemberId() == loginedMemberId) {
+						%>
+						<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="location.href='list'">뒤로가기</button>
+						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
+								href="modify?id=${article.id }">수정</a>
+						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+								href="delete?id=${article.id }">삭제</a>
+						<%
+						}
+						%>
+				</div>
 		</div>
-	</div>
-
-
 
 </section>
+<%
+if (rq.isLogined()) {
+%>
+<form style="text-align: center;" method="post" action="../comment/docWrite">
+		<div style="display: inline-block; border: 2px solid black; width: 700px; height: 150px; text-align: left;">
+				<div>
+						번호 :
+						<input value="${article.id }" class="input input-bordered w-full max-w-xs" type="hidden" name="relId" />
+						게시판 번호 :
+						<input value="${article.boardId }" class="input input-bordered w-full max-w-xs" type="hidden" name="boardId" />
+				</div>
+
+				<div>작성자 : ${rq.loginedMember.nickname}</div>
+				<div>
+						내용 :
+						<textarea type="text" class="input input-bordered w-full max-w-xs" placeholder="내용을 입력해주세요" name="body" /></textarea>
+				</div>
+
+				<button class="btn-text-link btn btn-outline btn-xs" style="display: inline" type="submit">작성하기</button>
+		</div>
+</form>
+<%
+}
+%>
+
+<table class="table-box-type-2 table w-full" style="border-collaspe: collaspe; width: 700px; ">
+		<thead>
+
+				<tr>
+						<th style="font-size: 19px">번호</th>
+						<th style="font-size: 19px">날짜</th>
+						<th style="font-size: 19px">내용</th>
+						<th style="font-size: 19px">작성자</th>
+
+				</tr>
+		</thead>
+		<tbody>
+				<c:forEach var="comment" items="${comments }">
+						<tr>
+								<th>
+										<div class="badge badge-lg">${comment.id }</div>
+								</th>
+								<th>${comment.regDate.substring(0,10) }</th>
+								<th>${comment.body }</th>
+								<th>${comment.name}</th>
+						</tr>
+				</c:forEach>
+		</tbody>
+</table>
+
 
 
 

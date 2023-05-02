@@ -56,12 +56,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<style>
-.title:hover {
-	background-color: gray;
-	color: pink;
-}
-</style>
+	
+
 	</div>
 </section>
 
