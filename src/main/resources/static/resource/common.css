@@ -17,7 +17,7 @@ html>body {
 }
 
 .table-box-type-2>thead th, .table-box-type-2 th {
-	border: 2px solid black;
+	/*border: 2px solid black;*/
 	height: 0;
 }
 
@@ -49,7 +49,7 @@ body>div>.list:hover>ul>li>a {
 }
 
 th {
-	border: 1px solid black;
+
 	text-align: center;
 	padding: 8px;
 	font-size: 17px;

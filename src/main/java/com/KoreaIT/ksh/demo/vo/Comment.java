@@ -20,4 +20,8 @@ public class Comment {
 	private int goodReactionPoint;
 	private int badReactionPoint;
 //	private boolean actorCanDelete;
+	
+	public String getForPrintBody() {
+		return body.replaceAll("\n", "<br>");
+	}
 }

@@ -156,7 +156,8 @@ public class UsrArticleController {
 		model.addAttribute("article", article);
 		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
 		model.addAttribute("actorCanMakeReactionRd", actorCanMakeReactionRd);
-
+		model.addAttribute("isAlreadyAddGoodRp", reactionPointService.isAlreadyAddGoodRp(id, "article"));
+		model.addAttribute("isAlreadyAddBadRp", reactionPointService.isAlreadyAddBadRp(id, "article"));
 		if (actorCanMakeReactionRd.isSuccess()) {
 			model.addAttribute("actorCanMakeReaction", actorCanMakeReactionRd.isSuccess());
 		}
@@ -174,7 +175,8 @@ public class UsrArticleController {
 			List<Comment> comments = commentService.getComments(id);
 
 			model.addAttribute("comments", comments);
-		
+
+			
 		return "usr/article/detail";
 	}
 
