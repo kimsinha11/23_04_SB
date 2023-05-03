@@ -13,22 +13,21 @@ html>body {
 
 /* 라이브러리 */
 .table-box-type-1>thead th, .table-box-type-1 th {
-	border: 2px solid black;
+	border: 1px solid black;
+	padding: 5px;
 }
 
 .table-box-type-2>thead th, .table-box-type-2 th {
-	/*border: 2px solid black;*/
-	height: 0;
+	border: 1px solid black;
+	padding: 5px;
 }
 
-.title-text,
-.comment-count {
-  display: inline-block;
+.title-text, .comment-count {
+	display: inline-block;
 }
 
-.title-text:hover,
-.comment-count:hover {
-  text-decoration: underline;
+.title-text:hover, .comment-count:hover {
+	text-decoration: underline;
 }
 
 table {
@@ -51,7 +50,6 @@ body>div>.list:hover>ul>li>a {
 th {
 	border: 1px solid black;
 	text-align: center;
-	padding: 8px;
 	font-size: 17px;
 	font-weight: light;
 }

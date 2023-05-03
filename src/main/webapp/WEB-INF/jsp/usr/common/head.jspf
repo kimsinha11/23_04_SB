@@ -23,7 +23,7 @@ boolean isLogined = rq.isLogined();
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
-		<h1 style="font-size: 55px; text-align: center; background-color: lightgray">${pageTitle  }</h1>
+		<h1 style="font-size: 50px; text-align: center; background-color: lightgray">${pageTitle  }</h1>
 
 		<div class="h-10 flex mx-auto text-3xl ">
 				<a href="/">로고</a>
@@ -63,7 +63,7 @@ boolean isLogined = rq.isLogined();
 						<a style="display: block;" href="/usr/member/logout">로그아웃</a>
 				</div>
 				<div style="display: inline-block; width: 7%; text-align: center;">
-						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">${rq.loginedMember.nickname }</a>
+						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">내정보</a>
 				</div>
 				<%
 				}

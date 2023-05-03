@@ -4,7 +4,7 @@
 <%@ page import="com.KoreaIT.ksh.demo.vo.Comment"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
-<c:set var="pageTitle" value="ARTICLE MODIFY" />
+<c:set var="pageTitle" value="댓글 수정" />
 <%@ include file="../common/head.jspf"%>
 <%
 Comment comment = (Comment) request.getAttribute("comment");
@@ -13,8 +13,23 @@ Comment comment = (Comment) request.getAttribute("comment");
 <h1 style="text-align: center; padding: 70px 20px 0;">${comment.id }번
 	댓글 수정</h1>
 
-
-<form style="text-align: center;" method="post" action="docModify">
+<script type="text/javascript">
+	let ReplyModify__submitFormDone = false;
+	function ReplyModify__submitForm(form) {
+		if (ReplyModify__submitFormDone) {
+			return;
+		}
+		form.body.value = form.body.value.trim();
+		if (form.body.value.length < 3) {
+			alert('3글자 이상 입력하세요');
+			form.body.focus();
+			return;
+		}
+		ReplyWrite__submitFormDone = true;
+		form.submit();
+	}
+</script>
+<form style="text-align: center;" method="post" onsubmit="ReplyModify__submitForm(this); return false" action="docModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 <div style="display: none;">
 
@@ -25,6 +40,7 @@ Comment comment = (Comment) request.getAttribute("comment");
 			/>
 	</div>
 	</div>
+	<div>작성자 : ${comment.name }</div>
 	<div>작성날짜 : ${comment.regDate }</div>
 	<div>
 		내용 :

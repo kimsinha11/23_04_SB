@@ -138,7 +138,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 %>
 <section class="mt-10 text-xl">
 		<div class="mx-auto overflow-x-auto">
-				<table class=" table w-full table-box-type-1" style="width: 700px; height: 500px;">
+				<table class=" table w-full table-box-type-1" style="width: 700px; height: 300px;">
 						<thead>
 								<tr>
 										<th style="font-size: 15px">번호</th>
@@ -259,6 +259,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 </c:if>
 </div>
 <br />
+<div style="text-align: center;">댓글 리스트</div>
 <table class="table-box-type-2 table w-full" style="border-collaspe: collaspe; width: 700px;">
 		<thead>
 
