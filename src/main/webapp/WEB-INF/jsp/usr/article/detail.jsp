@@ -53,18 +53,78 @@ Comment comment = (Comment) request.getAttribute("comment");
 			return;
 		}
 	};
-	function checkAddRpBefore2() {
-	    <!-- 변수값에 따라 각 id가 부여된 버튼에 클래스 추가(이미 눌려있다는 색상 표시) -->
-			if (isAlreadyAddGoodRp2 == true) {
-				$('#likeButton').removeClass('btn-outline').addClass('btn-danger');
-			} else if (isAlreadyAddBadRp2 == true) {
-				$('#DislikeButton').removeClass('btn-outline').addClass('btn-danger');
-			} else {
-				return;
-			}
-		};
-</script>
 
+</script>
+<!-- 댓글 리액션 실행 코드 -->
+<script>
+$(function() {
+    checkAddRpBefore();
+});
+
+function doCommentGoodReaction(commentId) {
+    if (params.memberId == 0) {
+        alert('로그인 후 이용해주세요.');
+        return;
+    }
+    $.ajax({
+        url: '/usr/reactionPoint/doGoodReaction',
+        type: 'POST',
+        data: {relTypeCode: 'reply', relId: commentId},
+        dataType: 'json',
+        success: function(data) {
+            if (data.resultCode.startsWith('S-')) {
+                var likeButton = $('#commentLikeButton-' + commentId);
+                var likeCount = $('#commentLikeCount-' + commentId);
+
+                if (data.resultCode == 'S-1') {
+                    likeButton.removeClass('btn-primary').addClass('btn-outline-primary');
+                    likeCount.text(parseInt(likeCount.text()) - 1);
+                } else {
+                    likeButton.removeClass('btn-outline-primary').addClass('btn-primary');
+                    likeCount.text(parseInt(likeCount.text()) + 1);
+                }
+            } else {
+                alert(data.msg);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('오류가 발생했습니다: ' + textStatus);
+        }
+    });
+}
+
+function doCommentBadReaction(commentId) {
+    if (params.memberId == 0) {
+        alert('로그인 후 이용해주세요.');
+        return;
+    }
+    $.ajax({
+        url: '/usr/reactionPoint/doBadReaction',
+        type: 'POST',
+        data: {relTypeCode: 'reply', relId: commentId},
+        dataType: 'json',
+        success: function(data) {
+            if (data.resultCode.startsWith('S-')) {
+                var dislikeButton = $('#commentDislikeButton-' + commentId);
+                var dislikeCount = $('#commentDislikeCount-' + commentId);
+
+                if (data.resultCode == 'S-1') {
+                    dislikeButton.removeClass('btn-primary').addClass('btn-outline-primary');
+                    dislikeCount.text(parseInt(dislikeCount.text()) - 1);
+                } else {
+                    dislikeButton.removeClass('btn-outline-primary').addClass('btn-primary');
+                    dislikeCount.text(parseInt(dislikeCount.text()) + 1);
+                }
+            } else {
+                alert(data.msg);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('오류가 발생했습니다: ' + textStatus);
+        }
+    });
+}
+</script>
 <!-- 리액션 실행 코드 -->
 <script>
      $(function() {
@@ -322,8 +382,27 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 					href="../comment/cdelete?id=${comment.id }&relId=${comment.relId }">삭제</a>
 				</th>
 				<th>
-					<button>👍 ${comment.goodReactionPoint }</button>
-					<button>👎 ${comment.badReactionPoint }</button>
+					<button id="likeButton" class="btn btn-outline" type="button"
+						onclick="doCommentGoodReaction(${param.id})">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+							fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2"
+								d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+			  </svg>
+						<span id="likeCount">${comment.goodReactionPoint}</span>
+
+					</button>
+					<button id="DislikeButton" class="btn btn-outline" type="button"
+						onclick="doCommentBadReaction(${param.id})">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+							fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			    <path stroke-linecap="round" stroke-linejoin="round"
+								stroke-width="2"
+								d="M18,4h3v10h-3V4z M5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21c0.58,0,1.14-0.24,1.52-0.65L17,14V4H6.57 C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14z" />
+			  </svg>
+						<span id="DislikeCount">${comment.badReactionPoint}</span>
+					</button>
 				</th>
 
 			</tr>
