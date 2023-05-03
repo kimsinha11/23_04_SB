@@ -70,4 +70,5 @@ public class UsrReactionController {
 
 		return ResultData.from("S-2", "싫어요");
 	}
+
 }
