@@ -6,10 +6,38 @@
 <%@ include file="../common/head.jspf"%>
 <%@ page import="com.KoreaIT.ksh.demo.vo.Rq"%>
 
+
+
+<%
+Member member = (Member) request.getAttribute("member");
+String loginPw = member.getLoginPw();
+%>
 <h1 style="text-align: center; padding: 70px 20px 0;">비밀번호 확인</h1>
 
+<script>
+let checkPw__submitFormDone = false;
+function checkPw__submitForm(form) {
+	if (checkPw__submitFormDone) {
+		return;
+	}
+	form.loginPw.value = form.loginPw.value.trim();
 
-<form style="text-align: center;" method="post" action="doCheckPw">
+	if(form.loginPw.value.length == 0){
+			alert('비밀번호를 입력해주세요');
+			form.loginPw.focus();
+			return;
+	}
+	if (form.loginPw.value !== '<%= loginPw %>') {
+				alert('비밀번호가 일치하지 않습니다');
+				form.loginPw.focus();
+				return;
+			}	
+
+	checkPw__submitFormDone = true;
+	form.submit();
+}
+</script>
+<form action="doCheckPw" style="text-align: center;" method="post" onsubmit="checkPw__submitForm(this); return false;" >
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 
 	<div>

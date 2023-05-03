@@ -130,8 +130,10 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/checkPw")
-	public String showcheckPw() {
-
+	public String showcheckPw(Model model, int id) {
+		Member member = memberService.getMemberById(id);
+		
+		model.addAttribute("member", member);
 		return "usr/member/checkPw";
 	}
 	
@@ -161,7 +163,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/domModify")
 	@ResponseBody
-	public String domModify(int id, String loginPw, String loginPwConfirm, String name, String nickname, String cellphoneNum, String email) {
+	public String domModify(int id, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 
 		Member member = memberService.getMemberById(id);
 
@@ -169,9 +171,6 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("F-D", id + "번 회원은 존재하지 않습니다.");
 		}
 		
-		if(loginPw.equals(loginPwConfirm)==false) {
-			return Ut.jsHistoryBack("F-D", "비밀번호가 일치하지 않습니다.");
-		}
 		
 		memberService.modifyMember(id, loginPw, name, nickname, cellphoneNum, email);
 

@@ -11,57 +11,54 @@ Member member = (Member) request.getAttribute("member");
 
 <script>
 let MemberModify__submitFormDone = false;
-function MemberModify__submitForm(form) {
+function MemberModify__submit(form) {
 	if (MemberModify__submitFormDone) {
 		return;
 	}
 	form.loginPw.value = form.loginPw.value.trim();
-	form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
-	if (form.loginPw.value.length >0) {
+	if (form.loginPw.value.length > 0) {
 		form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
-		
-		if(form.loginPwConfirm.value.length == 0){
-			alert('비밀번호 확인을 입력해주세요');
+		if (form.loginPwConfirm.value.length == 0) {
+			alert('비번 확인 써라');
 			form.loginPwConfirm.focus();
 			return;
 		}
 		if (form.loginPw.value != form.loginPwConfirm.value) {
-				alert('비밀번호가 일치하지 않습니다');
-				form.loginPw.focus();
-				return;
-			}	
-	form.name.value = fomr.name.value.trim();
-	form.nickname.value = fomr.nickname.value.trim();
-	form.cellphoneNum.value = fomr.cellphoneNum.value.trim();
-	form.email.value = fomr.email.value.trim();
-	
+			alert('비번 불일치');
+			form.loginPw.focus();
+			return;
+		}
+	}
+	form.name.value = form.name.value.trim();
+	form.nickname.value = form.nickname.value.trim();
+	form.cellphoneNum.value = form.cellphoneNum.value.trim();
+	form.email.value = form.email.value.trim();
 	if (form.name.value.length == 0) {
 		alert('이름을 입력해주세요');
 		form.name.focus();
 		return;
-	}	
+	}
 	if (form.nickname.value.length == 0) {
 		alert('닉네임을 입력해주세요');
 		form.nickname.focus();
 		return;
-	}	
+	}
 	if (form.cellphoneNum.value.length == 0) {
 		alert('전화번호를 입력해주세요');
 		form.cellphoneNum.focus();
 		return;
-	}	
+	}
 	if (form.email.value.length == 0) {
 		alert('이메일을 입력해주세요');
 		form.email.focus();
 		return;
-	}	
 	}
 	MemberModify__submitFormDone = true;
 	form.submit();
 }
 </script>
 
-<form style="text-align: center;" method="post" onsubmit="MemberModify__submitForm(this); return false;" action="domModify">
+<form  action="domModify" style="text-align: center;" method="post" onsubmit="MemberModify__submit(this); return false;">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 	<div>
 		회원번호 : <input value="${member.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
