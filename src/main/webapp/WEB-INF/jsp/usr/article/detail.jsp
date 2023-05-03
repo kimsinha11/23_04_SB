@@ -52,7 +52,7 @@ Comment comment = (Comment) request.getAttribute("comment");
 			return;
 		}
 	};
-</script>	
+</script>
 
 <!-- 리액션 실행 코드 -->
 <script>
@@ -115,7 +115,7 @@ Comment comment = (Comment) request.getAttribute("comment");
 		          }
 		      });
 		  }
-</script>   
+</script>
 <script type="text/javascript">
 	let ReplyWrite__submitFormDone = false;
 	function ReplyWrite__submitForm(form) {
@@ -219,6 +219,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 						<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="location.href='list'">뒤로가기</button>
 						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
 								href="modify?id=${article.id }">수정</a>
+
 						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
 								href="delete?id=${article.id }">삭제</a>
 						<%
@@ -274,7 +275,6 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 				<c:forEach var="comment" items="${comments }">
 						<tr>
 								<th>${comment.body }</th>
-
 								<th>${comment.regDate.substring(0,10) }</th>
 								<th>${comment.name}</th>
 
@@ -288,8 +288,8 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 								</th>
 
 						</tr>
-				</c:forEach>
-		</tbody>
+				</c:forEach>		
+</tbody>
 </table>
 
 

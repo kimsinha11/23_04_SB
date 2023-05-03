@@ -16,13 +16,14 @@ Comment comment = (Comment) request.getAttribute("comment");
 
 <form style="text-align: center;" method="post" action="docModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
+<div style="display: none;">
+
 	<div>
 		번호 : <input value="${comment.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
 			/>
-	</div>
-		<div>
 		게시물번호 : <input value="${comment.relId }" class="input input-bordered w-full max-w-xs"  type="hidden" name="relId"
 			/>
+	</div>
 	</div>
 	<div>작성날짜 : ${comment.regDate }</div>
 	<div>
