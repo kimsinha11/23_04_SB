@@ -3,6 +3,7 @@ package com.KoreaIT.ksh.demo.repository;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.KoreaIT.ksh.demo.vo.Member;
 
@@ -56,5 +57,18 @@ public interface MemberRepository {
 			AND email = #{email}
 			""")
 	Member getMemberByNameAndEmail(String name, String email);
+
+	@Update("""
+			UPDATE member
+			<set>
+				<if test="name != null and name != ''">`name` = #{name},</if>
+				<if test="nickname != null and nickname != ''">`nickname` = #{nickname},</if>
+				<if test="cellphoneNum != null and cellphoneNum != ''">`cellphoneNum` = #{cellphoneNum},</if>
+				<if test="email != null and email != ''">`email` = #{email},</if>
+				updateDate= NOW()
+			</set>
+			WHERE id = #{id}
+					""")
+	void modifyMember(int id, String name, String nickname, String cellphoneNum, String email);
 
 }

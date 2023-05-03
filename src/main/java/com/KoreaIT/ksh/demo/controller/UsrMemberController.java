@@ -131,4 +131,39 @@ public class UsrMemberController {
 		return "usr/member/profile";
 	}
 
+
+	@RequestMapping("/usr/member/mmodify")
+
+	public String mmodify(Model model, int id) {
+
+		Member member = memberService.getMemberById(id);
+
+		if (member == null) {
+			return rq.jsHistoryBackOnView(Ut.f("%d번 회원은 존재하지 않습니다", id));
+		}
+		if (member.getId() == rq.getLoginedMemberId()) {
+
+			model.addAttribute("member", member);
+			return "usr/member/mmodify";
+		} else {
+			return rq.jsHistoryBackOnView(Ut.f("권한이없습니다."));
+		}
+
+	}
+	
+	@RequestMapping("/usr/member/domModify")
+	@ResponseBody
+	public String domModify(int id, String name, String nickname, String cellphoneNum, String email) {
+
+		Member member = memberService.getMemberById(id);
+
+		if (member == null) {
+			return Ut.jsHistoryBack("F-D", id + "번 회원은 존재하지 않습니다.");
+		}
+		memberService.modifyMember(id,name, nickname, cellphoneNum, email);
+
+		return Ut.jsReplace("S-1", "수정완료", Ut.f("../member/profile?id=%d", id));
+
+	}
+
 }

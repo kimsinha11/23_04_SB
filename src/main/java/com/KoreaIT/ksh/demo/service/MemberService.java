@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.KoreaIT.ksh.demo.repository.MemberRepository;
 import com.KoreaIT.ksh.demo.util.Ut;
+import com.KoreaIT.ksh.demo.vo.Article;
 import com.KoreaIT.ksh.demo.vo.Member;
 import com.KoreaIT.ksh.demo.vo.ResultData;
 
@@ -52,6 +53,14 @@ public class MemberService {
 
 	public Member profile(int id) {
 		return memberRepository.profile(id);
+	}
+
+	public ResultData modifyMember(int id, String name, String nickname, String cellphoneNum, String email) {
+		memberRepository.modifyMember(id, name, nickname, cellphoneNum, email);
+
+		Member member = getMemberById(id);
+
+		return ResultData.from("S-1", Ut.f("%d번 회원을 수정 했습니다", id), "member", member);
 	}
 
 }

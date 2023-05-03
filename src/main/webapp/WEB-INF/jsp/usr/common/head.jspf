@@ -29,17 +29,17 @@ boolean isLogined = rq.isLogined();
 				<a href="/">로고</a>
 
 				<div class="flex-grow"></div>
-				<div style="display: inline-block; width: 7%; text-align: center;">
+				<div style="display: inline-block; width: 5%; text-align: center;">
 						<a style="display: block;" href="../home/main">메인</a>
 				</div>
-				<div style=" display: inline-block; width: 7%; text-align: center;">
+				<div style=" display: inline-block; width: 6%; text-align: center;">
 						<a style="display: block;" href="/usr/article/write">글쓰기</a>
 				</div>
 
 				<%
 				if (!isLogined) {
 				%>
-				<div style=" display: inline-block; width: 7%; text-align: center;">
+				<div style=" display: inline-block; width: 6%; text-align: center;">
 						<a style="display: block;" href="/usr/member/login">로그인</a>
 				</div>
 				<div style=" display: inline-block; width: 7%; text-align: center;">
@@ -62,8 +62,8 @@ boolean isLogined = rq.isLogined();
 				<div style="display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/logout">로그아웃</a>
 				</div>
-				<div style="display: inline-block; width: 7%; text-align: center;">
-						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">내정보</a>
+				<div style="display: inline-block; width: 10%; text-align: center;">
+						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">마이페이지</a>
 				</div>
 				<%
 				}

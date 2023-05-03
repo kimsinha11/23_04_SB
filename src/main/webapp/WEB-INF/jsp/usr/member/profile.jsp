@@ -61,7 +61,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 						%>
 						<button class="btn-text-link btn btn-outline btn-xs" type="button" onclick="history.back()">뒤로가기</button>
 						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
-								href="#">수정</a>
+								href="mmodify?id=${member.id }">수정</a>
 						<a class="btn-text-link btn btn-outline btn-xs" onclick="if(confirm('정말 탈퇴하시겠습니까?') == false) return false;"
 								href="#">탈퇴</a>
 						<%
