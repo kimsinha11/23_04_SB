@@ -62,8 +62,8 @@ boolean isLogined = rq.isLogined();
 				<div style="display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/logout">로그아웃</a>
 				</div>
-				<div style="display: inline-block; width: 10%; text-align: center;">
-						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">마이페이지</a>
+				<div style="display: inline-block; width: 15%; text-align: center;">
+						<a style="display: block;" href="/usr/member/profile?id=${rq.loginedMember.id }">마이페이지(${rq.loginedMember.nickname })</a>
 				</div>
 				<%
 				}

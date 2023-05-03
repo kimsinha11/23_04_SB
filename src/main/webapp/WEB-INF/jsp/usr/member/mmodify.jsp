@@ -6,34 +6,92 @@
 
 <%
 Member member = (Member) request.getAttribute("member");
-int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+
 %>
-<h1 style="text-align: center; padding: 70px 20px 0;">${member.name }번
-	내정보 수정</h1>
 
+<script>
+let MemberModify__submitFormDone = false;
+function MemberModify__submitForm(form) {
+	if (MemberModify__submitFormDone) {
+		return;
+	}
+	form.loginPw.value = form.loginPw.value.trim();
+	form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
+	if (form.loginPw.value.length >0) {
+		form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
+		
+		if(form.loginPwConfirm.value.length == 0){
+			alert('비밀번호 확인을 입력해주세요');
+			form.loginPwConfirm.focus();
+			return;
+		}
+		if (form.loginPw.value != form.loginPwConfirm.value) {
+				alert('비밀번호가 일치하지 않습니다');
+				form.loginPw.focus();
+				return;
+			}	
+	form.name.value = fomr.name.value.trim();
+	form.nickname.value = fomr.nickname.value.trim();
+	form.cellphoneNum.value = fomr.cellphoneNum.value.trim();
+	form.email.value = fomr.email.value.trim();
+	
+	if (form.name.value.length == 0) {
+		alert('이름을 입력해주세요');
+		form.name.focus();
+		return;
+	}	
+	if (form.nickname.value.length == 0) {
+		alert('닉네임을 입력해주세요');
+		form.nickname.focus();
+		return;
+	}	
+	if (form.cellphoneNum.value.length == 0) {
+		alert('전화번호를 입력해주세요');
+		form.cellphoneNum.focus();
+		return;
+	}	
+	if (form.email.value.length == 0) {
+		alert('이메일을 입력해주세요');
+		form.email.focus();
+		return;
+	}	
+	}
+	MemberModify__submitFormDone = true;
+	form.submit();
+}
+</script>
 
-<form style="text-align: center;" method="post" action="domModify">
+<form style="text-align: center;" method="post" onsubmit="MemberModify__submitForm(this); return false;" action="domModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 	<div>
-		번호 : <input value="${member.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
-			/>
+		회원번호 : <input value="${member.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
+			/>  ${member.id }
 	</div>
 	<div>가입날짜 : ${member.regDate }</div>
+	<div>아이디 : ${member.loginId }</div>
+	<div>
+		새 비밀번호 : <input value="${member.loginPw }" class="input input-bordered w-full max-w-xs"  type="text" name="loginPw"
+			placeholder="변경할 비밀번호를 입력해주세요" />
+	</div>
+	<div>
+		비밀번호 확인: <input value="${member.loginPw }" class="input input-bordered w-full max-w-xs"  type="text" name="loginPwConfirm"
+			placeholder="변경할 비밀번호를 입력해주세요" />
+	</div>
 	<div>
 		이름 : <input value="${member.name }" class="input input-bordered w-full max-w-xs"  type="text" name="name"
-			placeholder="이름을 입력해주세요" />
+			placeholder="변경할 이름을 입력해주세요" />
 	</div>
 	<div>
 		닉네임 : <input value="${member.nickname }" class="input input-bordered w-full max-w-xs"  type="text" name="nickname"
-			placeholder="닉네임을 입력해주세요" />
+			placeholder="변경할 닉네임을 입력해주세요" />
 	</div>
 	<div>
 		전화번호 : <input value="${member.cellphoneNum }" class="input input-bordered w-full max-w-xs"  type="text" name="cellphoneNum"
-			placeholder="전화번호를 입력해주세요" />
+			placeholder="변경할 전화번호를 입력해주세요" />
 	</div>
 	<div>
 		이메일 : <input value="${member.email }" class="input input-bordered w-full max-w-xs"  type="text" name="email"
-			placeholder="이메일을 입력해주세요" />
+			placeholder="변경할 이메일을 입력해주세요" />
 	</div>
 
 	<button class="btn-text-link btn btn-outline btn-xs" style="display: inline" type="submit"> 수정하기</button>

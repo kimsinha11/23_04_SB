@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,18 +23,17 @@ public class UsrMemberController {
 	private MemberService memberService;
 	@Autowired
 	private Rq rq;
+
 	@RequestMapping("/usr/member/login")
 	public String login() {
 
-		
 		return "usr/member/login";
 	}
-	
+
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw) {
 
-		
 		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("F-A", "이미 로그인 상태입니다.");
 		}
@@ -55,29 +53,29 @@ public class UsrMemberController {
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Ut.jsHistoryBack("F-4", "비밀번호가 틀렸습니다");
 		}
-		
+
 		rq.login(member);
 
 		return String.format("<script>alert('로그인 성공.'); location.replace('../article/list');</script>");
 	}
-	
+
 	@RequestMapping("/usr/member/logout")
 	@ResponseBody
 	public String doLogout() {
 
-		if(!rq.isLogined()) {
+		if (!rq.isLogined()) {
 			return Ut.jsHistoryBack("F-1", "이미 로그아웃 상태입니다.");
 		}
-		
+
 		rq.logout();
 
 		return Ut.jsReplace("S-1", "로그아웃 되었습니다", "/");
 	}
-	
+
 	@RequestMapping("/usr/member/join")
 	public String join(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		
+
 		return "usr/member/join";
 	}
 
@@ -131,36 +129,51 @@ public class UsrMemberController {
 		return "usr/member/profile";
 	}
 
+	@RequestMapping("/usr/member/checkPw")
+	public String showcheckPw() {
 
-	@RequestMapping("/usr/member/mmodify")
-
-	public String mmodify(Model model, int id) {
-
-		Member member = memberService.getMemberById(id);
-
-		if (member == null) {
-			return rq.jsHistoryBackOnView(Ut.f("%d번 회원은 존재하지 않습니다", id));
-		}
-		if (member.getId() == rq.getLoginedMemberId()) {
-
-			model.addAttribute("member", member);
-			return "usr/member/mmodify";
-		} else {
-			return rq.jsHistoryBackOnView(Ut.f("권한이없습니다."));
-		}
-
+		return "usr/member/checkPw";
 	}
 	
+	@RequestMapping("/usr/member/doCheckPw")
+
+	public String doCheckPw(Model model, String loginId, String loginPw) {
+	
+		if (Ut.empty(loginPw)) {
+			return Ut.jsHistoryBack("F-4", "비밀번호를 입력해주세요");
+		}
+
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member == null) {
+			return Ut.jsHistoryBack("F-3", "없는 비밀번호입니다");
+		}
+
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return Ut.jsHistoryBack("F-4", "비밀번호가 틀렸습니다");
+		}
+		model.addAttribute("member", member);
+		return "usr/member/mmodify";
+
+		
+	}
+
+
 	@RequestMapping("/usr/member/domModify")
 	@ResponseBody
-	public String domModify(int id, String name, String nickname, String cellphoneNum, String email) {
+	public String domModify(int id, String loginPw, String loginPwConfirm, String name, String nickname, String cellphoneNum, String email) {
 
 		Member member = memberService.getMemberById(id);
 
 		if (member == null) {
 			return Ut.jsHistoryBack("F-D", id + "번 회원은 존재하지 않습니다.");
 		}
-		memberService.modifyMember(id,name, nickname, cellphoneNum, email);
+		
+		if(loginPw.equals(loginPwConfirm)==false) {
+			return Ut.jsHistoryBack("F-D", "비밀번호가 일치하지 않습니다.");
+		}
+		
+		memberService.modifyMember(id, loginPw, name, nickname, cellphoneNum, email);
 
 		return Ut.jsReplace("S-1", "수정완료", Ut.f("../member/profile?id=%d", id));
 
