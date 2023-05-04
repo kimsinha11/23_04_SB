@@ -129,4 +129,8 @@ public class Rq {
 		return !isLogined;
 	}
 
+	public void run() {
+		System.out.println("===================================A");
+	}
+
 }
