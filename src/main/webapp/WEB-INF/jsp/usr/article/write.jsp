@@ -15,6 +15,7 @@ Article article = (Article) request.getAttribute("article");
 
 
 <form style="text-align: center;" method="post" action="doWrite">
+
   <div style="display: inline-block; border: 2px solid black; padding: 50px; text-align: left;">
   <div style="text-align: right;">${rq.loginedMember.nickname }</div>
     <select class="select select-bordered w-full max-w-xs" name="boardId">
@@ -30,7 +31,11 @@ Article article = (Article) request.getAttribute("article");
     </div>
     <div>
       내용 :
-      <textarea type="text" class="input input-bordered w-full max-w-xs" placeholder="내용을 입력해주세요" name="body" /></textarea>
+       <div class="toast-ui-editor">
+      <script type="text/x-template">${article.body}
+      </script>
+    </div>
+    <textarea type="text" class="input input-bordered w-full max-w-xs" placeholder="내용을 입력해주세요" name="body" /></textarea> 
     </div>
 
     <script>
