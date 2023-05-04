@@ -132,6 +132,11 @@ public class Rq {
 	public String getLoginUri() {
 		return "../member/login?afterLoginUri=" + getAfterLoginUri();
 	}
+	public String getLogoutUri() {
+		return "../member/logout?afterLogoutUri=" + getAfterLogoutUri();
+	}
+	
+	//로그인 후 접근 불가 페이지 afterLoginUri 값이 유지되도록
 	private String getAfterLoginUri() {
 		String requestUri = req.getRequestURI();
 		switch(requestUri) {
@@ -141,10 +146,17 @@ public class Rq {
 		}
 		return getEncodedCurrentUri();
 	}
+	//로그인 후 접근 불가 페이지 afterLogoutUri 값이 유지되도록
+	private String getAfterLogoutUri() {
+		String requestUri = req.getRequestURI();
+		return getEncodedCurrentUri();
+	}
+	
 	public String getEncodedCurrentUri() {
 		return Ut.getEncodedCurrentUri(getCurrentUri());
 	}
-
+	
+	
 	// Rq 객체 생성 유도
 	// 삭제 x, BeforeActionInterceptor 에서 강제 호출
 	public void initOnBeforeActionInterceptor() {
