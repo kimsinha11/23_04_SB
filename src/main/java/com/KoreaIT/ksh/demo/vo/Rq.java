@@ -24,7 +24,6 @@ public class Rq {
 	private int loginedMemberId;
 	@Getter
 	private Member loginedMember;
-
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
@@ -32,7 +31,6 @@ public class Rq {
 	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
 		this.req = req;
 		this.resp = resp;
-
 		this.session = req.getSession();
 		boolean isLogined = false;
 		int loginedMemberId = 0;
@@ -58,6 +56,16 @@ public class Rq {
 			println("alert('" + msg + "');");
 		}
 		println("history.back();");
+		println("</script>");
+	}
+	
+	public void printLoginBackJs(String msg) throws IOException {
+		resp.setContentType("text/html; charset=UTF-8");
+		println("<script>");
+		if (!Ut.empty(msg)) {
+			println("alert('" + msg + "');");
+		}
+		println("location.href='../member/login';");
 		println("</script>");
 	}
 
@@ -115,6 +123,12 @@ public class Rq {
 
 	}
 	
+	public String getLoginUri() {
+		return "../member/login?afterLoginUri=" + getAfterLoginUri();
+	}
+	private String getAfterLoginUri() {
+		return getEncodedCurrentUri();
+	}
 	public String getEncodedCurrentUri() {
 		return Ut.getEncodedCurrentUri(getCurrentUri());
 	}
@@ -132,5 +146,12 @@ public class Rq {
 	public void run() {
 		System.out.println("===================================A");
 	}
+
+	public void jsprintReplace(String msg, String replaceUri) {
+		resp.setContentType("text/html; charset=UTF-8");
+		print(Ut.jsReplace(msg, replaceUri));
+
+	}
+
 
 }

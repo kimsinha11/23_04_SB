@@ -343,7 +343,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 <div style="text-align: center;">
 	<c:if test="${rq.notLogined }">
 		<a class="btn-text-link btn btn-outline btn-xs" type="button"
-			href="/usr/member/login">로그인</a> 후 댓글 작성을 이용해주세요
+			href="${rq.loginUri }">로그인</a> 후 댓글 작성을 이용해주세요
 </c:if>
 </div>
 <br />

@@ -9,6 +9,7 @@
 
 
 <form style="text-align: center;" method="post" action="doLogin">
+<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri }" />
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 
 	<div>

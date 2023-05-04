@@ -41,7 +41,7 @@ boolean isLogined = rq.isLogined();
 				if (!isLogined) {
 				%>
 				<div style=" display: inline-block; width: 6%; text-align: center;">
-						<a style="display: block;" href="/usr/member/login">로그인</a>
+						<a style="display: block;" href="${rq.loginUri }">로그인</a>
 				</div>
 				<div style=" display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/join">회원가입</a>
