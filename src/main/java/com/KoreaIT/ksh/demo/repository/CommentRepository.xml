@@ -15,7 +15,7 @@
 		boardId =
 		#{boardId},
 		relTypeCode =
-		'article',
+		'comment',
 		relId =
 		#{relId},
 		goodReactionPoint = 0,
@@ -75,4 +75,28 @@
 		
 	</select>
 
+
+	<update id="increaseGoodReactionPoint">
+		UPDATE comment
+		SET goodReactionPoint = goodReactionPoint + 1
+		WHERE id = #{relId}
+	</update>
+	
+	<update id="decreaseGoodReactionPoint">
+		UPDATE comment
+		SET goodReactionPoint = goodReactionPoint - 1
+		WHERE id = #{relId}
+	</update>
+	
+	<update id="increaseBadReactionPoint">
+		UPDATE comment
+		SET badReactionPoint = badReactionPoint + 1
+		WHERE id = #{relId}
+	</update>
+	
+	<update id="decreaseBadReactionPoint">
+		UPDATE comment
+		SET badReactionPoint = badReactionPoint - 1
+		WHERE id = #{relId}
+	</update>
 </mapper>

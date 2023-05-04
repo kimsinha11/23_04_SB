@@ -14,6 +14,8 @@ public class ReactionPointService {
 	@Autowired
 	private ArticleService articleService;
 	@Autowired
+	private CommentService commentService;
+	@Autowired
 	private Rq rq;
 
 	public ReactionPointService(ReactionPointRepository reactionPointRepository) {
@@ -46,6 +48,9 @@ public class ReactionPointService {
 		case "article":
 			articleService.increaseGoodReactionPoint(relId);
 			break;
+		case "comment":
+			commentService.increaseGoodReactionPoint(relId);
+			break;
 		}
 
 		return ResultData.from("S-1", "좋아요 처리 됨");
@@ -56,12 +61,15 @@ public class ReactionPointService {
 		int affectedRow = reactionPointRepository.addBadReactionPoint(actorId, relTypeCode, relId);
 
 		if (affectedRow != 1) {
-			return ResultData.from("F-1", "좋아요 실패");
+			return ResultData.from("F-1", "싫어요 실패");
 		}
 
 		switch (relTypeCode) {
 		case "article":
 			articleService.increaseBadReactionPoint(relId);
+			break;
+		case "comment":
+			commentService.increaseBadReactionPoint(relId);
 			break;
 		}
 
@@ -75,6 +83,9 @@ public class ReactionPointService {
 		case "article":
 			articleService.decreaseGoodReactionPoint(relId);
 			break;
+		case "comment":
+			commentService.decreaseGoodReactionPoint(relId);
+			break;
 		}
 		return ResultData.from("S-1", "좋아요 취소 됨");
 	}
@@ -86,6 +97,8 @@ public class ReactionPointService {
 		case "article":
 			articleService.decreaseBadReactionPoint(relId);
 			break;
+		case "comment":
+			commentService.decreaseBadReactionPoint(relId);
 		}
 		return ResultData.from("S-1", "싫어요 취소 됨");
 	}

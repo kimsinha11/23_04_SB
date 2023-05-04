@@ -26,7 +26,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/login")
 	public String login() {
-
+		
 		return "usr/member/login";
 	}
 
@@ -75,7 +75,7 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/join")
 	public String join(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
-
+		
 		return "usr/member/join";
 	}
 
@@ -171,7 +171,21 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("F-D", id + "번 회원은 존재하지 않습니다.");
 		}
 		
-		
+		if (Ut.empty(loginPw)) {
+			loginPw = null;
+		}
+		if(Ut.empty(name)) {
+			return rq.jsHistoryBackOnView("이름을 입력해주세요");
+		}
+		if(Ut.empty(nickname)) {
+			return rq.jsHistoryBackOnView("닉네임을 입력해주세요");
+		}
+		if(Ut.empty(cellphoneNum)) {
+			return rq.jsHistoryBackOnView("전화번호를 입력해주세요");
+		}
+		if(Ut.empty(email)) {
+			return rq.jsHistoryBackOnView("이메일을 입력해주세요");
+		}
 		memberService.modifyMember(id, loginPw, name, nickname, cellphoneNum, email);
 
 		return Ut.jsReplace("S-1", "수정완료", Ut.f("../member/profile?id=%d", id));

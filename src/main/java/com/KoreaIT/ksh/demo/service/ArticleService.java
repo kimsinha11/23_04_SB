@@ -118,25 +118,7 @@ public class ArticleService {
 		return articleRepository.getCommentsCount();
 	}
 
-	public void decreaseGoodReactionPoint2(int relId) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	public void increaseGoodReactionPoint2(int relId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void decreaseBadReactionPoint2(int relId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void increaseBadReactionPoint2(int relId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 

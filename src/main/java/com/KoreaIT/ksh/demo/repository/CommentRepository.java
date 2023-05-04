@@ -20,4 +20,13 @@ public interface CommentRepository {
 	public void cdeleteComment(int id);
 
 	public List<Comment> getComments(int id);
+	
+
+	public int increaseGoodReactionPoint(int relId);
+
+	public int increaseBadReactionPoint(int relId);
+
+	public int decreaseGoodReactionPoint(int relId);
+
+	public int decreaseBadReactionPoint(int relId);
 }
