@@ -57,9 +57,6 @@ Comment comment = (Comment) request.getAttribute("comment");
 </script>
 <!-- 댓글 리액션 실행 코드 -->
 <script>
-$(function() {
-    checkAddRpBefore();
-});
 
 function doCommentGoodReaction(commentId) {
     if (params.memberId == 0) {
@@ -74,13 +71,13 @@ function doCommentGoodReaction(commentId) {
         success: function(data) {
             if (data.resultCode.startsWith('S-')) {
                 var likeButton = $('#commentLikeButton');
-                var likeCount = $('#commentLikeCount');
+                var likeCount = $('#commentlikeCount');
 
                 if (data.resultCode == 'S-1') {
-                    likeButton.removeClass('btn-primary').addClass('btn-outline-primary');
+          
                     likeCount.text(parseInt(likeCount.text()) - 1);
                 } else {
-                    likeButton.removeClass('btn-outline-primary').addClass('btn-primary');
+
                     likeCount.text(parseInt(likeCount.text()) + 1);
                 }
             } else {
@@ -109,10 +106,10 @@ function doCommentBadReaction(commentId) {
                 var dislikeCount = $('#commentDislikeCount');
 
                 if (data.resultCode == 'S-1') {
-                    dislikeButton.removeClass('btn-primary').addClass('btn-outline-primary');
+
                     dislikeCount.text(parseInt(dislikeCount.text()) - 1);
                 } else {
-                    dislikeButton.removeClass('btn-outline-primary').addClass('btn-primary');
+
                     dislikeCount.text(parseInt(dislikeCount.text()) + 1);
                 }
             } else {
