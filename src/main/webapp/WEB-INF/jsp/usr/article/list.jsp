@@ -120,7 +120,7 @@ List<Article> commentsCount = (List<Article>) request.getAttribute("commentsCoun
 			<option value="1">제목</option>
 			<option value="2">내용</option>
 			<option value="3">제목+내용</option>
-		</select> <input type="hidden" name="boardId" value="${article.boardId}" /> <input
+		</select> <input type="hidden" name="boardId" value="${param.boardId}" /> <input
 			value="${param.searchKeyword }"
 			class="input input-bordered w-full max-w-xs" type="text"
 			name="searchKeyword" placeholder="검색어를 입력해주세요" />

@@ -148,7 +148,7 @@ public class Rq {
 	}
 	//로그인 후 접근 불가 페이지 afterLogoutUri 값이 유지되도록
 	private String getAfterLogoutUri() {
-		String requestUri = req.getRequestURI();
+	//	String requestUri = req.getRequestURI();
 		return getEncodedCurrentUri();
 	}
 	
