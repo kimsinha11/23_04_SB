@@ -135,6 +135,9 @@ public class Rq {
 	public String getLogoutUri() {
 		return "../member/logout?afterLogoutUri=" + getAfterLogoutUri();
 	}
+	public String getJoinUri() {
+		return "../member/join?afterLoginUri=" + getAfterLoginUri();
+	}
 	
 	//로그인 후 접근 불가 페이지 afterLoginUri 값이 유지되도록
 	private String getAfterLoginUri() {

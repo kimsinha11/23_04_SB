@@ -11,6 +11,11 @@ html>body {
 	font-family: 'KCCChassam', woff2;
 }
 
+html {
+	width: 1200px;
+	margin: 0 auto;
+}
+
 /* 라이브러리 */
 .table-box-type-1>thead th, .table-box-type-1 th {
 	border: 1px solid black;
