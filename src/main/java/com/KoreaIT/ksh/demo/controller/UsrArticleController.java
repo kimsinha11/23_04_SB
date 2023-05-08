@@ -94,7 +94,7 @@ public class UsrArticleController {
 		Board board = BoardService.getBoardById(boardId);
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId(), boardId);
 		int id = (int) writeArticleRd.getData1();
-		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d", id));
+		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d&boardId=%d", id, boardId));
 
 	}
 
@@ -146,7 +146,7 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(Model model, int id, String replaceUri) {
+	public String getArticle(Model model, int id, int boardId) {
 
 		Article article = articleService.getArticle(id);
 
@@ -174,11 +174,11 @@ public class UsrArticleController {
 
 			model.addAttribute("comments", comments);
 
-			if (Ut.empty(replaceUri)) {
-				replaceUri = Ut.f("../article/detail?id=%d", id);
-			}
-
-			return rq.jsReplace(Ut.f("%d번 글이 생성되었습니다", id), replaceUri);
+			Board board = BoardService.getBoardById(boardId);
+			
+			model.addAttribute(board);
+			
+		return "usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")

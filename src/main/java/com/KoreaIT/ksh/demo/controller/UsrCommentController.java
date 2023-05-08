@@ -79,7 +79,7 @@ public class UsrCommentController {
 		ResultData<Integer> writeCommentRd = commentService.cwriteComment(body, rq.getLoginedMemberId(), relId,
 				boardId);
 		int id = (int) writeCommentRd.getData1();
-		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d", relId));
+		return Ut.jsReplace("S-1", "작성완료", Ut.f("../article/detail?id=%d&boardId=%d", relId, boardId));
 
 	}
 
