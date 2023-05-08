@@ -32,7 +32,7 @@ Comment comment = (Comment) request.getAttribute("comment");
 <form style="text-align: center;" method="post" onsubmit="ReplyModify__submitForm(this); return false" action="docModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 <div style="display: none;">
-
+<input type="hidden" name="replaceUri" value="${param.replaceUri }" />
 	<div>
 		번호 : <input value="${comment.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
 			/>

@@ -146,7 +146,7 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(Model model, int id, int boardId) {
+	public String getArticle(Model model, int id, String replaceUri) {
 
 		Article article = articleService.getArticle(id);
 
@@ -174,11 +174,11 @@ public class UsrArticleController {
 
 			model.addAttribute("comments", comments);
 
-			Board board = BoardService.getBoardById(boardId);
-			
-			model.addAttribute(board);
-			
-		return "usr/article/detail";
+			if (Ut.empty(replaceUri)) {
+				replaceUri = Ut.f("../article/detail?id=%d", id);
+			}
+
+			return rq.jsReplace(Ut.f("%d번 글이 생성되었습니다", id), replaceUri);
 	}
 
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")

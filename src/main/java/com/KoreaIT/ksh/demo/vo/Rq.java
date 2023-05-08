@@ -180,5 +180,7 @@ public class Rq {
 
 	}
 
-
+	public String getArticleDetailUriFromArticleList(Article article) {
+		return "../article/detail?id=" + article.getId() + "&listUri=" + getEncodedCurrentUri();
+	}
 }
