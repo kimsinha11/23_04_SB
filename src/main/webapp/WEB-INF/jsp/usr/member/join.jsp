@@ -4,6 +4,8 @@
 <c:set var="pageTitle" value="JOIN" />
 <%@ include file="../common/head.jspf"%>
 
+<!--  lodash debounce -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 <br /><br /><br />
 <script>
 	let submitJoinFormDone = false;
@@ -99,12 +101,18 @@
 			}
 		}, 'json');
 	}
+		const checkLoginIdDuplication = _.debounce(checkLoginIdDup,500);
+	
+
 	function checkNicknameDup(el) {
 		$('.checkDup-msg').empty();
 		const form = $(el).closest('form').get(0);
 		const nickname = form.nickname.value.trim();
 		if(form.nickname.value.length == 0) {
 			validNickname ='';
+			return;
+		}
+		if(validNickname == form.nickname.value) {
 			return;
 		}
 		if(nickname.length < 5 || nickname.length > 20) {
@@ -129,13 +137,14 @@
 			}
 		}, 'json');
 	}
+		const checkNicknameDuplication = _.debounce(checkNicknameDup,500);
 
 </script>
 <form style="text-align: center;" method="post" onsubmit="submitJoinForm(this); return false;" action="doJoin">
 	<div style="display: inline-block; border: 2px solid black; padding: 50px; text-align: left;">
 		<div>
 			아이디 :
-			<input onkeyup="checkLoginIdDup(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요"  id="loginId" />
+			<input onkeyup="checkLoginIdDuplication(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요"  id="loginId" />
 			
 		</div>
 		<div style="font-size:12px; color:blue;"class="checkDup-msg"></div>
@@ -157,7 +166,7 @@
 		<br />
 		<div>
 			닉네임 :
-			<input onkeyup="checkNicknameDup(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="nickname" placeholder="닉네임을 입력해주세요" id="nickname"/>
+			<input onkeyup="checkNicknameDuplication(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="nickname" placeholder="닉네임을 입력해주세요" id="nickname"/>
 		
 		</div>
 		<div style="font-size:12px; color:blue;"class="checkDup-msg2"></div>
