@@ -8,6 +8,7 @@
 <script>
 	let submitJoinFormDone = false;
 	let validLoginId ="";
+	let validNickname ="";
 	function submitJoinForm(form) {
 		if (submitJoinFormDone) {
 			alert('처리중입니다');
@@ -68,15 +69,28 @@
 	function checkLoginIdDup(el) {
 		$('.checkDup-msg').empty();
 		const form = $(el).closest('form').get(0);
-		
+		const loginId = form.loginId.value.trim();
 		if(form.loginId.value.length == 0) {
 			validLoginId ='';
 			return;
 		}
+		if(validLoginId == form.loginId.value) {
+			return;
+		}
+		if(loginId.length < 5 || loginId.length > 20) {
+			$('.checkDup-msg').html('<div>5글자 ~ 20글자 사이로 입력해주세요</div>');
+			return;
+		} 
+		
 		$.get('../member/getLoginIdDup', {
 			isAjax : 'Y',
-			loginId : form.loginId.value
+			loginId : loginId
 		}, function(data) {
+			if (form.loginId.value.trim() !== loginId) {
+				// 검사 중 입력 값이 바뀌었을 때
+				return;
+			}
+			
 			$('.checkDup-msg').html('<div>' + data.msg + '</div>')
 			if(data.success){
 				validLoginId = data.data1;
@@ -85,30 +99,74 @@
 			}
 		}, 'json');
 	}
+	function checkNicknameDup(el) {
+		$('.checkDup-msg').empty();
+		const form = $(el).closest('form').get(0);
+		const nickname = form.nickname.value.trim();
+		if(form.nickname.value.length == 0) {
+			validNickname ='';
+			return;
+		}
+		if(nickname.length < 5 || nickname.length > 20) {
+			$('.checkDup-msg2').html('<div>5글자 ~ 20글자 사이로 입력해주세요</div>');
+			return;
+		} 
+		
+		$.get('../member/getNicknameDup', {
+			isAjax : 'Y',
+			nickname : nickname
+		}, function(data) {
+			if (form.nickname.value.trim() !== nickname) {
+				// 검사 중 입력 값이 바뀌었을 때
+				return;
+			}
+			
+			$('.checkDup-msg2').html('<div>' + data.msg + '</div>')
+			if(data.success){
+				validNickname = data.data1;
+			} else {
+				validNickname = '';
+			}
+		}, 'json');
+	}
+
 </script>
 <form style="text-align: center;" method="post" onsubmit="submitJoinForm(this); return false;" action="doJoin">
 	<div style="display: inline-block; border: 2px solid black; padding: 50px; text-align: left;">
 		<div>
 			아이디 :
 			<input onkeyup="checkLoginIdDup(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginId" placeholder="아이디를 입력해주세요"  id="loginId" />
-			<div style="font-size:12px; color:blue;"class="checkDup-msg"></div>
+			
 		</div>
+		<div style="font-size:12px; color:blue;"class="checkDup-msg"></div>
+		<br />
 		<div>
 			비밀번호 :
 			<input class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginPw" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
 		</div>
+		<br />
+		<div>
+			비밀번호 확인:
+			<input class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginPwConfirm" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
+		</div>
+		<br />
 		<div>
 			이름 :
 			<input class="input input-bordered input-sm w-full max-w-xs" type="text" name="name" placeholder="이름을 입력해주세요" />
 		</div>
+		<br />
 		<div>
 			닉네임 :
-			<input class="input input-bordered input-sm w-full max-w-xs" type="text" name="nickname" placeholder="닉네임을 입력해주세요" />
+			<input onkeyup="checkNicknameDup(this);"class="input input-bordered input-sm w-full max-w-xs" type="text" name="nickname" placeholder="닉네임을 입력해주세요" id="nickname"/>
+		
 		</div>
+		<div style="font-size:12px; color:blue;"class="checkDup-msg2"></div>
+		<br />
 		<div>
 			전화번호 :
 			<input class="input input-bordered input-sm w-full max-w-xs" value="" type="text" name="cellphoneNum" placeholder="전화번호를 입력해주세요" autocomplete="off"/>
 		</div>
+		<br />
 		<div>
 			이메일 :
 			<input class="input input-bordered input-sm w-full max-w-xs" value="" type="text" name="email" placeholder="이메일을 입력해주세요" />
