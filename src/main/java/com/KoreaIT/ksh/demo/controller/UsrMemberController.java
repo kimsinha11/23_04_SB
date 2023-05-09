@@ -154,6 +154,7 @@ public class UsrMemberController {
 		
 		return ResultData.from("S-1", "사용 가능!", "nickname", nickname);
 	}
+	
 
 	@RequestMapping("/usr/member/profile")
 	public String profile(Model model, int id) {

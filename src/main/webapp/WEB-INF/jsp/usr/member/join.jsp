@@ -11,6 +11,7 @@
 	let submitJoinFormDone = false;
 	let validLoginId ="";
 	let validNickname ="";
+	let validPwConfirm ="";
 	function submitJoinForm(form) {
 		if (submitJoinFormDone) {
 			alert('처리중입니다');
@@ -105,7 +106,7 @@
 	
 
 	function checkNicknameDup(el) {
-		$('.checkDup-msg').empty();
+		$('.checkDup-msg2').empty();
 		const form = $(el).closest('form').get(0);
 		const nickname = form.nickname.value.trim();
 		if(form.nickname.value.length == 0) {
@@ -138,7 +139,7 @@
 		}, 'json');
 	}
 		const checkNicknameDuplication = _.debounce(checkNicknameDup,500);
-
+	  
 </script>
 <form style="text-align: center;" method="post" onsubmit="submitJoinForm(this); return false;" action="doJoin">
 	<div style="display: inline-block; border: 2px solid black; padding: 50px; text-align: left;">
