@@ -216,6 +216,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 
 Board board = (Board) request.getAttribute("board");
 %>
+	<br /><br /><br />
 <section class="mt-10 text-xl">
 	<div class="mx-auto overflow-x-auto">
 		<table class=" table w-full table-box-type-1"
@@ -379,11 +380,11 @@ Board board = (Board) request.getAttribute("board");
 
 				<th><a class="btn-text-link btn btn-outline btn-xs"
 					onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;"
-					href="../comment/cmodify?id=${comment.id }&relId=${comment.relId }">수정</a>
+					href="../comment/cmodify?id=${comment.id }&relId=${comment.relId }&boardId=${board.id}">수정</a>
 				</th>
 				<th><a class="btn-text-link btn btn-outline btn-xs"
 					onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-					href="../comment/cdelete?id=${comment.id }&relId=${comment.relId }">삭제</a>
+					href="../comment/cdelete?id=${comment.id }&relId=${comment.relId }&boardId=${board.id}">삭제</a>
 				</th>
 				<th>
 					<button id="commentlikeButton" class="btn btn-outline" type="button"
