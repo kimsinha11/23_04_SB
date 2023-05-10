@@ -8,7 +8,8 @@ boolean isLogined = rq.isLogined();
 
 <!DOCTYPE html>
 <html>
-<head>
+
+<head data-theme="light">
 <meta charset="UTF-8">
 <title>${pageTitle  }</title>
 <!-- 테일윈드 불러오기 -->
@@ -19,15 +20,59 @@ boolean isLogined = rq.isLogined();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+function Theme__toggle() {
+	const theme = localStorage.getItem("theme") ?? "light";
+
+	if( theme == 'light'){
+		localStorage.setItem("theme","dark");
+		//Theme__applyTo('dark');
+	}
+	else {
+	    localStorage.setItem("theme", "light");
+	    //Theme__applyTo('light');
+	}
+
+	function Theme__applyTo(themeName) {
+		  $('html').attr('data-theme', themeName);
+	}
+
+
+	function Theme__init() {
+	  const theme = localStorage.getItem("theme") ?? "light";
+	  Theme__applyTo(theme);
+	}
+
+	//Theme__init();
+	location.reload();
+
+}
+function Theme__applyTo(themeName) {
+	  $('html').attr('data-theme', themeName);
+	}
+
+	function Theme__init() {
+	  const theme = localStorage.getItem("theme") ?? "light";
+	  Theme__applyTo(theme);
+	}
+
+	Theme__init();
+</script>
 <link rel="stylesheet" href="/resource/common.css" />
 <link rel="shortcut icon" href="/resource/favicon.ico" />
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 
 <body>
-		<header id="header" style="background-color: white;">
+		<header id="header">
 				<a href="../home/main" class="logo">Camping</a>
 				<ul>
+				<li class="">
+					<a class="h-full px-3 flex items-center btn-theme-toggle" href="javascript:Theme__toggle();">
+						<span>🌞</span>
+						<span>🌚</span>
+					</a>
+				</li>
 						<li>
 								<a href="../home/main" class="active">Home</a>
 						</li>
@@ -63,7 +108,7 @@ boolean isLogined = rq.isLogined();
 		</header>
 		<hr />
 
-		<nav style="background-color: white;">
+		<nav>
 			<br />
 		<div class="items" >
 				<ul class="menu-item">
@@ -96,12 +141,12 @@ boolean isLogined = rq.isLogined();
 		<div class="items">
 				<ul class="menu-item">
 						<li class="first">
-								<a href="#">주변 볼거리</a>
+								<a href="#">정보 제공</a>
 						<li>
-								<a href="#">문화 시설</a>
+								<a href="#">주변 관광지</a>
 						</li>
 						<li>
-								<a href="#">관광지</a>
+								<a href="/usr/home/APITest4">지도</a>
 						</li>
 						<li>
 								<a href="#">오늘 날씨</a>
@@ -185,7 +230,6 @@ boolean isLogined = rq.isLogined();
 
 body {
 	overflow-x: hidden;
-	background: #fff;
 	min-height: 100vh;
 
 }

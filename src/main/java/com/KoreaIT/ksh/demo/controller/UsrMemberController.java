@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.ksh.demo.service.MemberService;
+import com.KoreaIT.ksh.demo.util.SHA256;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Member;
 import com.KoreaIT.ksh.demo.vo.ResultData;
@@ -42,9 +43,12 @@ public class UsrMemberController {
 		if (Ut.empty(loginPw)) {
 			return Ut.jsHistoryBack("F-4", "비밀번호를 입력해주세요");
 		}
-
+		
+		
+		
 		Member member = memberService.getMemberByLoginId(loginId);
-
+		
+		
 		if (member == null) {
 			return Ut.jsHistoryBack("F-3", "없는 아이디입니다");
 		}
@@ -88,6 +92,7 @@ public class UsrMemberController {
 	public String doJoin(String loginId, String loginPw, String loginPwConfirm, String name, String nickname, String cellphoneNum,
 			String email, @RequestParam(defaultValue = "/") String afterLoginUri) {
 
+		
 		if (Ut.empty(loginId)) {
 			return rq.jsHistoryBack("F-N", "아이디를 입력해주세요.");
 		}
@@ -109,6 +114,7 @@ public class UsrMemberController {
 		if (Ut.empty(email)) {
 			return rq.jsHistoryBack("F-N", "이메일을 입력해주세요.");
 		}
+		
 
 		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNum, email);
 

@@ -1,8 +1,7 @@
 #DB 생성
-DROP DATABASE IF EXISTS SB_AM_04;
-CREATE DATABASE SB_AM_04;
-USE SB_AM_04;
-
+DROP DATABASE IF EXISTS PJ_KSH;
+CREATE DATABASE PJ_KSH;
+USE PJ_KSH;
 # 게시물 테이블 생성
 CREATE TABLE article(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -283,7 +282,28 @@ updateDate = NOW(),
 title = '제목 3',
 `body` = '내용 3';
 
+# 기존의 회원 비밀번호를 암호화
+UPDATE `member`
+SET loginPw = SHA2('loginPw', 256);
 
+# 회원가입시 비밀번호 암호화화
+INSERT INTO `member`
+			SET regDate = NOW(),
+			updateDate = NOW(),
+			loginId = 'test5',
+			loginPw =  SHA2('test5', 256),
+			`name` = 'test5',
+			nickname = '회원4',
+			cellphoneNum = '010-8888-8888',
+			email = 'hihi@naver.com'
+
+# 로그인시 로그인 복호화
+SELECT id, regDate, updateDate, loginId, CONVERT(UNHEX(HEX(#{loginPw})) USING UTF8) AS loginPw, authLevel, `name`, nickname, cellphoneNum, email, delStatus, delDate
+			FROM `member`
+			WHERE loginId = #{loginId};
+			
+###############################################################
+SELECT*FROM `member`;
 # 게시물 갯수 늘리기
 INSERT INTO article 
 ( 

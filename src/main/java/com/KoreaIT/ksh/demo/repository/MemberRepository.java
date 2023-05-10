@@ -23,7 +23,7 @@ public interface MemberRepository {
 			SET regDate = NOW(),
 			updateDate = NOW(),
 			loginId = #{loginId},
-			loginPw = #{loginPw},
+			loginPw =  SHA2(#{loginPw}, 256),
 			`name` = #{name},
 			nickname = #{nickname},
 			cellphoneNum = #{cellphoneNum},
@@ -44,7 +44,7 @@ public interface MemberRepository {
 	int getLastInsertId();
 
 	@Select("""
-			SELECT *
+			SELECT id, regDate, updateDate, loginId, CONVERT(UNHEX(HEX(#{loginPw})) USING UTF8) AS loginPw, authLevel, `name`, nickname, cellphoneNum, email, delStatus, delDate
 			FROM `member`
 			WHERE loginId = #{loginId}
 			""")
